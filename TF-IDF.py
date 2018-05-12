@@ -38,10 +38,18 @@ collectors and writers such as Jeff Cooper, Ian V. Hogg, Chuck Hawks, Leroy
 Thompson, Renee Smeets and Martin Dougherty have described the Python as the
 finest production revolver ever made.""")
 
+
+
 bloblist = [document1, document2, document3]
+query = ["Colt", "Magnum"]
+for blob in bloblist:
+    v =  list(map( lambda x: tfidf(x, blob, bloblist), query))
+    print (v)
+'''
 for i, blob in enumerate(bloblist):
     print("Top words in document {}".format(i + 1))
     scores = {word: tfidf(word, blob, bloblist) for word in blob.words}
     sorted_words = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-    for word, score in sorted_words:#[:3]:
+    for word, score in sorted_words[:3]:
         print("Word: {}, TF-IDF: {}".format(word, round(score, 5)))
+'''
