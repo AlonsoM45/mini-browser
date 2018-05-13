@@ -1,4 +1,5 @@
 import math
+import operator
 from textblob import TextBlob as tb
 
 def tf(word, blob):
@@ -12,6 +13,7 @@ def idf(word, bloblist):
 
 def tfidf(word, blob, bloblist):
     return tf(word, blob) * idf(word, bloblist)
+
 
 document1 = tb("""Python is a 2000 made-for-TV horror movie directed by Richard
 Clabaugh. The film features several cult favorite actors, including William
@@ -41,15 +43,19 @@ finest production revolver ever made.""")
 
 
 bloblist = [document1, document2, document3]
-query = ["Colt", "Magnum"]
-for blob in bloblist:
-    v =  list(map( lambda x: tfidf(x, blob, bloblist), query))
-    print (v)
-'''
-for i, blob in enumerate(bloblist):
-    print("Top words in document {}".format(i + 1))
-    scores = {word: tfidf(word, blob, bloblist) for word in blob.words}
-    sorted_words = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-    for word, score in sorted_words[:3]:
-        print("Word: {}, TF-IDF: {}".format(word, round(score, 5)))
-'''
+similarity = {}
+
+
+query = ["Greek"]
+for i in range(len(bloblist)):
+    v =  list(map( lambda x: tfidf(x, bloblist[i], bloblist), query))
+    cant = 0.0
+    for num in v:
+        cant += num
+    similarity[i] = cant
+
+print (similarity)
+
+sortedList = sorted(similarity.items(), key=operator.itemgetter(1), reverse=True)
+
+print (sortedList)
