@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter
+from random import choice
 from TFIDF import searchIFIDF
 
 
@@ -48,6 +49,7 @@ class self(tkinter.Tk):
         #List
         self.list = []
 
+
     def normalSearch(self):
         quest = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
@@ -62,15 +64,40 @@ class self(tkinter.Tk):
     def probSearch(self):
         quest = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
+        uniformDocuments = uniform(documents,70)
+
+        self.listbox.delete(0, END)
+        self.list =[]
+        result = searchIFIDF(uniformDocuments, quest)
+        realQuantity = min(int(quantity), len(result))
+        for x in range(int(realQuantity)):
+            self.list += [uniformDocuments[result[x][0]]]
+            self.listbox.insert(END, [uniformDocuments[result[x][0]]])
 
     def viewDocument(self):
         index = self.listbox.curselection()
         self.textArea.delete(1.0, END)
         self.textArea.insert(END, self.list[int(index[0])])
+
+def uniform(documents, porcentage):
+    available = []
+    for i in range(len(documents)):
+        available += [i]
+
+    newDocuments = []
+    num = (len(documents)*porcentage)//100
+    for i in range (num):
+        randomNum = choice(available)
+        newDocuments += [documents[available.pop(randomNum)]]
+    return newDocuments
+
+
+
+
         
 
-
 documents = []
+
 
 documents += ["""Python is a 2000 made-for-TV horror movie directed by Richard
 Clabaugh. The film features several cult favorite actors, including William
