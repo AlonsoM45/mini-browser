@@ -57,6 +57,7 @@ class self(tkinter.Tk):
         self.list =[]
         result = searchIFIDF(documents, quest)
         realQuantity = min(int(quantity), len(result))
+        #arreglar
         for x in range(int(realQuantity)):
             self.list += [documents[result[x][0]]]
             self.listbox.insert(END, [documents[result[x][0]]])
@@ -70,6 +71,7 @@ class self(tkinter.Tk):
         self.list =[]
         result = searchIFIDF(uniformDocuments, quest)
         realQuantity = min(int(quantity), len(result))
+        #arreglar
         for x in range(int(realQuantity)):
             self.list += [uniformDocuments[result[x][0]]]
             self.listbox.insert(END, [uniformDocuments[result[x][0]]])
@@ -81,13 +83,15 @@ class self(tkinter.Tk):
 
 def uniform(documents, porcentage):
     available = []
+    #arreglar
     for i in range(len(documents)):
         available += [i]
 
     newDocuments = []
     num = (len(documents)*porcentage)//100
+    #arreglar
     for i in range (num):
-        randomNum = choice(available)
+        randomNum = choice(available)-1
         newDocuments += [documents[available.pop(randomNum)]]
     return newDocuments
 
