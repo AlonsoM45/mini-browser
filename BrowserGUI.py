@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter
 from random import choice
 from TFIDF import searchIFIDF
+import pyodbc
 
 
 def cargarArchivo(archivo):
@@ -97,12 +98,9 @@ def uniform(documents, porcentage):
 
 
 
-
-        
-
 documents = []
 
-
+'''
 documents += ["""Python is a 2000 made-for-TV horror movie directed by Richard
 Clabaugh. The film features several cult favorite actors, including William
 Zabka of The Karate Kid fame, Wil Wheaton, Casper Van Dien, Jenny McCarthy,
@@ -127,8 +125,17 @@ Colt Python targeted the premium revolver market segment. Some firearm
 collectors and writers such as Jeff Cooper, Ian V. Hogg, Chuck Hawks, Leroy
 Thompson, Renee Smeets and Martin Dougherty have described the Python as the
 finest production revolver ever made."""]
+'''
 
 
+cnxn = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};"
+                      "Server= DESKTOP-5TPABM1;"
+                      "Trusted_Connection=yes;")
+
+cursor = cnxn.cursor()
+cursor.execute('SELECT * FROM Google.dbo.Reseñas')
+doc = map(list,cursor)
+documents = list(doc)
 
 
 

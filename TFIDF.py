@@ -34,7 +34,7 @@ def tbDocuments(documents):
     bloblist = []
     for doc in documents:
         #arreglar
-        bloblist += [tb(doc)]
+        bloblist += [tb(doc[0])]
     return bloblist
 
 
