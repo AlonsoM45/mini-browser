@@ -25,3 +25,6 @@ def formatJSON(fname, copy = False):
         return True
     except:
         return False
+
+
+formatJSON("C:\\Users\\Rubén González V\\OneDrive\\TEC\\3 Semestre\\Analisis de Algoritmos\\mini-browser\\1000.json")

@@ -1,6 +1,9 @@
 from tkinter import *
 import tkinter
 from TFIDF import searchIFIDF
+import pyodbc
+
+
 
 
 def cargarArchivo(archivo):
@@ -69,7 +72,7 @@ class self(tkinter.Tk):
         self.textArea.insert(END, self.list[int(index[0])])
         
 
-
+'''
 documents = []
 
 documents += ["""Python is a 2000 made-for-TV horror movie directed by Richard
@@ -99,8 +102,16 @@ finest production revolver ever made."""]
 
 
 
+'''
 
+cnxn = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};"
+                      "Server= DESKTOP-5TPABM1;"
+                      "Trusted_Connection=yes;")
 
+cursor = cnxn.cursor()
+cursor.execute('SELECT * FROM Google.dbo.Reseñas')
+doc = map(list,cursor)
+documents = list(doc)
 
 
 

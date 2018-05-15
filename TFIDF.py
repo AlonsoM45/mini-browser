@@ -34,7 +34,7 @@ def searchIFIDF(documents, query):
 def tbDocuments(documents):
     bloblist = []
     for doc in documents:
-        bloblist += [tb(doc)]
+        bloblist += [tb(doc[0])]
     return bloblist
 
 
