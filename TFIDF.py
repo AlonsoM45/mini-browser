@@ -2,6 +2,7 @@ import math
 import operator
 from textblob import TextBlob as tb
 
+
 def tf(word, blob):
     return blob.words.count(word) / len(blob.words)
 
@@ -24,17 +25,16 @@ def searchIFIDF(documents, query):
     words = query.split(" ")
     for i in range(len(bloblist)):
         v =  list(map( lambda x: tfidf(x, bloblist[i], bloblist), words))
-        cant = 0.0
-        for num in v:
-            cant += num
-        similarity[i] = cant
+        #arreglar
+        similarity[i] = sum(v)
     sortedList = sorted(similarity.items(), key=operator.itemgetter(1), reverse=True)
     return sortedList
     
 def tbDocuments(documents):
     bloblist = []
     for doc in documents:
-        bloblist += [tb(doc[0])]
+        #arreglar
+        bloblist += [tb(doc)]
     return bloblist
 
 

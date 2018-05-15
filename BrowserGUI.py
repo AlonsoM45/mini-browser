@@ -1,9 +1,7 @@
 from tkinter import *
 import tkinter
+from random import choice
 from TFIDF import searchIFIDF
-import pyodbc
-
-
 
 
 def cargarArchivo(archivo):
@@ -51,6 +49,7 @@ class self(tkinter.Tk):
         #List
         self.list = []
 
+
     def normalSearch(self):
         quest = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
@@ -58,6 +57,7 @@ class self(tkinter.Tk):
         self.list =[]
         result = searchIFIDF(documents, quest)
         realQuantity = min(int(quantity), len(result))
+        #arreglar
         for x in range(int(realQuantity)):
             self.list += [documents[result[x][0]]]
             self.listbox.insert(END, [documents[result[x][0]]])
@@ -65,15 +65,43 @@ class self(tkinter.Tk):
     def probSearch(self):
         quest = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
+        uniformDocuments = uniform(documents,70)
+
+        self.listbox.delete(0, END)
+        self.list =[]
+        result = searchIFIDF(uniformDocuments, quest)
+        realQuantity = min(int(quantity), len(result))
+        #arreglar
+        for x in range(int(realQuantity)):
+            self.list += [uniformDocuments[result[x][0]]]
+            self.listbox.insert(END, [uniformDocuments[result[x][0]]])
 
     def viewDocument(self):
         index = self.listbox.curselection()
         self.textArea.delete(1.0, END)
         self.textArea.insert(END, self.list[int(index[0])])
+
+def uniform(documents, porcentage):
+    available = []
+    #arreglar
+    for i in range(len(documents)):
+        available += [i]
+
+    newDocuments = []
+    num = (len(documents)*porcentage)//100
+    #arreglar
+    for i in range (num):
+        randomNum = choice(available)-1
+        newDocuments += [documents[available.pop(randomNum)]]
+    return newDocuments
+
+
+
+
         
 
-'''
 documents = []
+
 
 documents += ["""Python is a 2000 made-for-TV horror movie directed by Richard
 Clabaugh. The film features several cult favorite actors, including William
@@ -102,16 +130,8 @@ finest production revolver ever made."""]
 
 
 
-'''
 
-cnxn = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};"
-                      "Server= DESKTOP-5TPABM1;"
-                      "Trusted_Connection=yes;")
 
-cursor = cnxn.cursor()
-cursor.execute('SELECT * FROM Google.dbo.Reseñas')
-doc = map(list,cursor)
-documents = list(doc)
 
 
 
