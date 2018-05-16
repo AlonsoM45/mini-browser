@@ -32,20 +32,20 @@ class self(tkinter.Tk):
         self.btnProbSearch= Button(self, text="Buscar Probabilistico",width=20, heigh=2,command= self.probSearch)
         self.btnProbSearch.place(x=200, y=100)
         self.btnViewDocument= Button(self, text="Ver Documento",width=20, heigh=2,command= self.viewDocument)
-        self.btnViewDocument.place(x=60, y=550)
+        self.btnViewDocument.place(x=620, y=525)
         #ListBox
         self.scrollbarList = Scrollbar(self, orient=VERTICAL)
-        self.listbox = Listbox(self, yscrollcommand=self.scrollbarList.set ,width=60, heigh=20)
+        self.listbox = Listbox(self, yscrollcommand=self.scrollbarList.set ,width=70, heigh=30)
         self.scrollbarList.config(command=self.listbox.yview)
-        self.scrollbarList.pack(side=LEFT, fill=Y)
-        self.listbox.place(x=20, y=200)
+        self.scrollbarList.pack(side=RIGHT, fill=Y)
+        self.listbox.place(x=500, y=10)
         
         #TextArea
         self.scrollbarText = Scrollbar(self, orient=VERTICAL)
-        self.textArea = Text(self,width=50, heigh=30,yscrollcommand=self.scrollbarText.set)
+        self.textArea = Text(self,width=50, heigh=20,yscrollcommand=self.scrollbarText.set)
         self.scrollbarText.config(command=self.textArea.yview)
-        self.scrollbarText.pack(side=RIGHT, fill=Y)
-        self.textArea.place(x=500, y=10)
+        self.scrollbarText.pack(side=LEFT, fill=Y)
+        self.textArea.place(x=20, y=200)
 
         #List
         self.list = []
@@ -61,7 +61,7 @@ class self(tkinter.Tk):
         #arreglar
         for x in range(int(realQuantity)):
             self.list += [documents[result[x][0]]]
-            self.listbox.insert(END, [documents[result[x][0]]])
+            self.listbox.insert(END, documents[result[x][0]])
 
     def probSearch(self):
         quest = self.textBoxSearch.get()
