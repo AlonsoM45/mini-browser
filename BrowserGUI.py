@@ -1,9 +1,10 @@
 from tkinter import *
 import tkinter
 from random import choice
-from TFIDF import searchTFIDF, newIndex
+from TFIDF import searchTFIDF
+from recorrerDirectorio import newIndex
 import pyodbc
-
+from time import time
 
 
 
@@ -52,7 +53,7 @@ class self(tkinter.Tk):
         quantity = self.textBoxQuantity.get()
         self.listbox.delete(0, END)
         self.list =[]
-        result = searchTFIDF(quest, TF, IDF, len(documents))
+        result = searchTFIDF(quest, TF, IDF, cantDocuments)
         realQuantity = min(int(quantity), len(result))
         #arreglar
         for x in range(int(realQuantity)):
@@ -95,23 +96,11 @@ def uniform(documents, porcentage):
 
 
 
-documents = []
 
-
-
-cnxn = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};"
-                      "Server= DESKTOP-5TPABM1;"
-                      "Trusted_Connection=yes;")
-
-cursor = cnxn.cursor()
-cursor.execute('SELECT * FROM Google.dbo.Reseñas')
-doc = map(list,cursor)
-documents = list(doc)
-
-
-
-TF, IDF = newIndex(documents)
-
+inicial = time()
+TF, IDF, cantDocuments = newIndex()
+final = time()
+print ("Duró indexando: "+str(final - inicial)+" segundos")
 
 self().mainloop()
 

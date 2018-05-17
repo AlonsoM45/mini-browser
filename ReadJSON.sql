@@ -104,7 +104,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Rese?as](
+CREATE TABLE [dbo].[Reseñas](
 	[Texto] [varchar](500) NOT NULL
 ) ON [PRIMARY]
 GO
@@ -123,7 +123,7 @@ USE Google
 
 DECLARE @json VARCHAR(MAX)
 SELECT @json = BulkColumn
-FROM OPENROWSET (BULK 'C:\Users\Rubén González V\OneDrive\TEC\3 Semestre\Analisis de Algoritmos\mini-browser\1000.json', SINGLE_CLOB) as j
+FROM OPENROWSET (BULK 'C:\Users\Rubén González V\Desktop\mini-browser\100000.json', SINGLE_CLOB) as j
 
 Insert Into dbo.Reseñas Select *
 FROM OPENJSON(@json)

@@ -1,13 +1,22 @@
 from os import walk, getcwd, path
+import pyodbc
+from TFIDF import newDocumentIndex,countWord
 
-def ls(ruta = getcwd()):
-    listaarchivos = []
+def newIndex(ruta = getcwd()):
+    indexTF  = []
+    indexIDF = {}
+    cantDocuments = 0
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
+            cantDocuments+=1
             pathText = path.join(root, archivo)
             text = cargarArchivo(pathText)
-        listaarchivos.extend(archivos)
-    return listaarchivos
+            newIndex = newDocumentIndex(text)
+            indexTF.append(newIndex)
+            for k in newIndex.keys():
+                countWord(indexIDF, k)
+    return indexTF, indexIDF, cantDocuments
+
 
 def buscarArchivo(searched):
     ruta = getcwd()
@@ -21,7 +30,5 @@ def cargarArchivo(archivo):
     fo = open(archivo, "r") 
     resultado = fo.read()
     fo.close()
-    return resultado
-
-ls()
+    return str(resultado)
 
