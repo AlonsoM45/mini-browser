@@ -5,12 +5,12 @@ def ls(ruta = getcwd()):
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
             pathText = path.join(root, archivo)
+            text = cargarArchivo(pathText)
         listaarchivos.extend(archivos)
     return listaarchivos
 
 def buscarArchivo(searched):
     ruta = getcwd()
-    listaarchivos = []
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
             if(archivo == searched):
