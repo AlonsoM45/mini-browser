@@ -2,8 +2,8 @@ import math
 import CosineSimilarity as cs
 import operator
 import numpy as np
-from textblob import TextBlob as tb
 
+#INDEXING FUNCTIONS
 def newIndex(documents):
     indexTF  = []
     indexIDF = {}
@@ -11,37 +11,24 @@ def newIndex(documents):
         newIndex = newDocumentIndex(doc)
         indexTF.append(newIndex)
         for k in newIndex.keys():
-            addWord(indexIDF, k)
+            countWord(indexIDF, k)
     return indexTF, indexIDF
 
-    
 def newDocumentIndex(document):
     words = document.split(" ")
     index = {}
-    for word in words:
-        addWord(index, word)
+    for w in words:
+        countWord(index, w)
     return index
 
-
-def addWord(index, word):
+def countWord(index, word):
     try:
         index[word] = index[word] + 1
     except:
         index[word] = 1
 
-def tf(word, blob):
-    return blob.words.count(word) / len(blob.words)
-
-def n_containing(word, bloblist):
-    return sum(1 for blob in bloblist if word in blob)
-
-def idf(word, bloblist):
-    return math.log(len(bloblist) / (1 + n_containing(word, bloblist)))
-
-def tfidf(TF, IDF, word):
-    return tf(word, blob) * idf(word, bloblist)
-
-def similarity(TF, IDF, words):
+#TF-IDF FUNCTIONS
+def similarity(TF, IDF, words, nDocs):
     vector = []
     for w in words:
         try:
@@ -52,18 +39,16 @@ def similarity(TF, IDF, words):
             valueIDF = IDF[w] +1
         except:
             valueIDF = 1
-        vector.append(valueTF*valueIDF)
+        vector.append(valueTF*(nDocs / valueIDF))
     #vectorB = np.array(list(map(lambda x: TF[x] * IDF[x], words)))
-    print(vector)
     return vector
 
 def searchTFIDF(query, documents):
+    nDocs = len(documents)
     TF, IDF = newIndex(documents)
     vectors = {}
     words = query.split(" ")
     for i in range(len(documents)):
-        vectors[i] = similarity(TF[i],IDF, words)
-    print(vectors)
+        vectors[i] = similarity(TF[i],IDF, words, nDocs)
     sortedList = sorted(vectors.items(), key=operator.itemgetter(1), reverse=True)
-    print(sortedList)
     return sortedList
