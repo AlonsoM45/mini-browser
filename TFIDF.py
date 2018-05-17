@@ -29,7 +29,8 @@ def countWord(index, word):
 
 #TF-IDF FUNCTIONS
 def similarity(TF, IDF, words, nDocs):
-    vector = []
+    vectorA = []
+    vectorB = []
     for w in words:
         try:
             valueTF = TF[w]
@@ -39,9 +40,12 @@ def similarity(TF, IDF, words, nDocs):
             valueIDF = IDF[w] +1
         except:
             valueIDF = 1
-        vector.append(valueTF*(nDocs / valueIDF))
-    #vectorB = np.array(list(map(lambda x: TF[x] * IDF[x], words)))
-    return vector
+        vectorA.append(valueTF*(nDocs / valueIDF))
+        vectorB.append( nDocs / valueIDF)    
+    vectorA = np.array(vectorA)
+    vectorB = np.array(vectorB)
+    print(vectorA,"@", vectorB)
+    return cs.cosSimilarity(vectorA, vectorB)
 
 def searchTFIDF(query, documents):
     nDocs = len(documents)
