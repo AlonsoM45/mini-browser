@@ -6,9 +6,9 @@ def readJSON(filename):
     RJ.formatJSON(filename)
     try:
         shutil.rmtree("TXT")
-        os.makedirs("TXT")
     except:
-        print ("No se pudo compa")
+        print ("No se pudo borrar")
+    os.makedirs("TXT")
     with open(filename) as file:
         data = json.load(file)
         for entry in data:
@@ -16,4 +16,4 @@ def readJSON(filename):
             outFile = open("TXT\\"+ entry["asin"]+".txt", "w")
             outFile.write(entry["reviewText"])
             outFile.close
-readJSON("C:\\Users\\Rubén González V\\OneDrive\\TEC\\3 Semestre\\Analisis de Algoritmos\\mini-browser\\100000.json")
+readJSON("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\1000.json")

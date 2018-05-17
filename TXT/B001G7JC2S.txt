@@ -1,0 +1,1 @@
+This component controlled the fan motor in my mother in-laws Camry.  It had two screws holding it in under the dash and worked great.

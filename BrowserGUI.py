@@ -5,11 +5,7 @@ from TFIDF import searchTFIDF, newIndex
 import pyodbc
 
 
-def cargarArchivo(archivo):
-    fo = open(archivo, "r") 
-    resultado = fo.read()
-    fo.close()
-    return eval(resultado)
+
 
 class self(tkinter.Tk):
     def __init__(self):
