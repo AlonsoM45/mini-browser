@@ -1,8 +1,8 @@
 from tkinter import *
 import tkinter
 from random import choice
-from TFIDF import searchIFIDF
-import pyodbc
+from TFIDF import searchTFIDF
+#import pyodbc
 
 
 def cargarArchivo(archivo):
@@ -56,7 +56,7 @@ class self(tkinter.Tk):
         quantity = self.textBoxQuantity.get()
         self.listbox.delete(0, END)
         self.list =[]
-        result = searchIFIDF(documents, quest)
+        result = searchTFIDF(quest, documents)
         realQuantity = min(int(quantity), len(result))
         #arreglar
         for x in range(int(realQuantity)):
@@ -70,7 +70,8 @@ class self(tkinter.Tk):
 
         self.listbox.delete(0, END)
         self.list =[]
-        result = searchIFIDF(uniformDocuments, quest)
+        result = searchTFIDF(quest, uniformDocuments)
+        print(result)
         realQuantity = min(int(quantity), len(result))
         #arreglar
         for x in range(int(realQuantity)):
@@ -126,6 +127,7 @@ collectors and writers such as Jeff Cooper, Ian V. Hogg, Chuck Hawks, Leroy
 Thompson, Renee Smeets and Martin Dougherty have described the Python as the
 finest production revolver ever made."""]
 '''
+
 
 
 cnxn = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};"
