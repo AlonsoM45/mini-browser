@@ -5,5 +5,8 @@ def cosSimilarity(A, B):
     dotProduct = dot(A,B)
     magnitudeA = magnitude(A)
     magnitudeB = magnitude(B)
-    return dotProduct / (magnitudeA * magnitudeB)
+    if dotProduct != 0:
+        return dotProduct / (magnitudeA * magnitudeB)
+    else:
+        return 0
 
