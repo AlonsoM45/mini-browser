@@ -50,6 +50,8 @@ def searchTFIDF(query, TF, IDF):
     vectors = {}
     words = query.split(" ")
     for i in range(len(TF)):
-        vectors[i] = similarity(TF[i],IDF, words, len(TF))
+        similarityDoc = similarity(TF[i],IDF, words, len(TF))
+        if (similarityDoc !=0):
+            vectors[i] = similarityDoc
     sortedList = sorted(vectors.items(), key=operator.itemgetter(1), reverse=True)
     return sortedList

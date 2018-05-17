@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter
 from random import choice
 from TFIDF import searchTFIDF
-from recorrerDirectorio import newIndex
+from recorrerDirectorio import newIndex, cargarArchivo
 import pyodbc
 from time import time
 
@@ -54,11 +54,14 @@ class self(tkinter.Tk):
         self.listbox.delete(0, END)
         self.list =[]
         result = searchTFIDF(quest, TF, IDF)
+        print( result)
         realQuantity = min(int(quantity), len(result))
         #arreglar
+        
         for x in range(int(realQuantity)):
-            self.list += [documents[result[x][0]]]
-            self.listbox.insert(END, documents[result[x][0]])
+            doc = cargarArchivo(paths[result[x][0]])
+            self.list += [doc]
+            self.listbox.insert(END, doc)
 
     def probSearch(self):
         quest = self.textBoxSearch.get()
@@ -98,7 +101,7 @@ def uniform(documents, porcentage):
 
 
 inicial = time()
-TF, IDF = newIndex()
+TF, IDF, paths = newIndex()
 final = time()
 print ("Duró indexando: "+str(final - inicial)+" segundos")
 
