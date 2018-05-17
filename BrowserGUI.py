@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter
 from random import choice
 from TFIDF import searchTFIDF
-#import pyodbc
+import pyodbc
 
 
 def cargarArchivo(archivo):
@@ -126,9 +126,8 @@ Colt Python targeted the premium revolver market segment. Some firearm
 collectors and writers such as Jeff Cooper, Ian V. Hogg, Chuck Hawks, Leroy
 Thompson, Renee Smeets and Martin Dougherty have described the Python as the
 finest production revolver ever made."""]
+
 '''
-
-
 
 cnxn = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};"
                       "Server= DESKTOP-5TPABM1;"
