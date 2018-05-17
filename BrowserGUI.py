@@ -53,7 +53,7 @@ class self(tkinter.Tk):
         quantity = self.textBoxQuantity.get()
         self.listbox.delete(0, END)
         self.list =[]
-        result = searchTFIDF(quest, TF, IDF, cantDocuments)
+        result = searchTFIDF(quest, TF, IDF)
         realQuantity = min(int(quantity), len(result))
         #arreglar
         for x in range(int(realQuantity)):
@@ -98,7 +98,7 @@ def uniform(documents, porcentage):
 
 
 inicial = time()
-TF, IDF, cantDocuments = newIndex()
+TF, IDF = newIndex()
 final = time()
 print ("Duró indexando: "+str(final - inicial)+" segundos")
 

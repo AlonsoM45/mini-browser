@@ -46,10 +46,10 @@ def similarity(TF, IDF, words, nDocs):
     vectorB = np.array(vectorB)
     return cs.cosSimilarity(vectorA, vectorB)
 
-def searchTFIDF(query, TF, IDF, quantityDocuments):
+def searchTFIDF(query, TF, IDF):
     vectors = {}
     words = query.split(" ")
-    for i in range(quantityDocuments):
-        vectors[i] = similarity(TF[i],IDF, words, quantityDocuments)
+    for i in range(len(TF)):
+        vectors[i] = similarity(TF[i],IDF, words, len(TF))
     sortedList = sorted(vectors.items(), key=operator.itemgetter(1), reverse=True)
     return sortedList

@@ -5,17 +5,15 @@ from TFIDF import newDocumentIndex,countWord
 def newIndex(ruta = getcwd()):
     indexTF  = []
     indexIDF = {}
-    cantDocuments = 0
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
-            cantDocuments+=1
             pathText = path.join(root, archivo)
             text = cargarArchivo(pathText)
             newIndex = newDocumentIndex(text)
             indexTF.append(newIndex)
             for k in newIndex.keys():
                 countWord(indexIDF, k)
-    return indexTF, indexIDF, cantDocuments
+    return indexTF, indexIDF
 
 
 def buscarArchivo(searched):
