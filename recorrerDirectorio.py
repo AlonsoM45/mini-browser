@@ -17,10 +17,13 @@ def newIndex2(ruta = getcwd()):
     indexTF  = []
     indexIDF = {}
     for (root, _, archivos) in walk(ruta+"\\TXT"):
-        for archivo in archivos:
-            thread = threading.Thread(target = worker(root,archivo,indexTF,indexIDF,paths))
-            threads.append(thread)
-            thread.start()
+        i = 0
+        while not flag:
+            if threadCount < 5:
+                thread = threading.Thread(target = worker(root,archivos[i],indexTF,indexIDF,paths))
+                threads.append(thread)
+                thread.start()
+                i = i + 1
         for thread in threads:
             thread.join
     guardar(indexTF,indexIDF, paths)
