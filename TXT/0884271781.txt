@@ -1,0 +1,1 @@
+This book really simplifies decision making, it pretty much helps you decide when you want to implement an "improvement" if it would really help or if it wont.

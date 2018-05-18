@@ -29,7 +29,7 @@ def buscarArchivo(searched):
                 return cargarArchivo(pathText)
 
 def cargarArchivo(archivo):
-    fo = open(archivo, "r", buffering=131080) 
+    fo = open(archivo) 
     resultado = fo.readline()
     fo.close()
     return str(resultado)

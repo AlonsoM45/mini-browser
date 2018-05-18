@@ -1,0 +1,1 @@
+I had over 1,500 bugs.  Each one had to be deleted by the user.  Two bugs were very troublesome & required multiple deletions.Very user unfriendly.
