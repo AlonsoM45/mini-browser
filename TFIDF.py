@@ -7,12 +7,23 @@ from textblob import TextBlob as tb
 #INDEXING FUNCTIONS
 
 
-
+"""
 def newDocumentIndex(document, indexIDF):
     words = document.split(" ")
     index = {}
     for w in words:
         countWord(index,indexIDF, w)
+    return index
+
+"""
+
+def newDocumentIndex(document, indexIDF):
+    index = {}
+    start = 0
+    for i in range(len(document)):
+        if document[i] == " ":       
+            countWord(index,indexIDF, document[start:i])
+            start = i + 1
     return index
 
 """
