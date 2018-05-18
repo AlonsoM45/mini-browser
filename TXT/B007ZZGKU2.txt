@@ -1,0 +1,1 @@
+The analog sticks don't move well when you install them, they stick when you move them they don't return to proper position after you move them on the contorller

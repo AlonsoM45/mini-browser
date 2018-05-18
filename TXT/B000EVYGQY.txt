@@ -1,0 +1,1 @@
+Scanner works great! But when I entered codes from three different vehicles into the DTC definitions; came back &#34;no codes found&#34;. I googled the codes and had no problems.

@@ -1,0 +1,1 @@
+So far it works very well.  Have tried it USB and also eSata and both work as expected.  Being able to swap drives with ease is a must for anybody who repairs computers.
