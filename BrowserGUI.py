@@ -3,9 +3,7 @@ import tkinter
 from random import choice
 from TFIDF import searchTFIDF
 from recorrerDirectorio import newIndex, cargarArchivo, cargarJSON
-import pyodbc
 from time import time
-
 
 
 class self(tkinter.Tk):
@@ -77,7 +75,7 @@ class self(tkinter.Tk):
             doc = cargarArchivo(paths[result[x][0]])
             self.list += [doc]
             self.listbox.insert(END, doc)
-
+    
     def viewDocument(self):
         index = self.listbox.curselection()
         self.textArea.delete(1.0, END)
@@ -108,17 +106,3 @@ final = time()
 print ("Duró indexando: "+str(final - inicial)+" segundos")
 
 self().mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-

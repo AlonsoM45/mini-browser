@@ -1,1 +1,0 @@
-The unit turns on, but the weight plate doesn't work at all. It says 0.00 no matter what you put on it, in any mode.

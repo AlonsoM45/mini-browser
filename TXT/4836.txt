@@ -1,1 +1,0 @@
-execute all the source code in the book.Some package needed to be installed and it wasn't explained in the book in detail.

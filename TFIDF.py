@@ -3,6 +3,7 @@ import CosineSimilarity as cs
 import operator
 import numpy as np
 from textblob import TextBlob as tb
+import queue as q
 
 #INDEXING FUNCTIONS
 
@@ -47,16 +48,23 @@ def countWord(index, indexIDF, word):
 
 #TF-IDF FUNCTIONS
 def similarity(TF, IDF, words, nDocs):
-    vectorA = []
-    vectorB = []
+    vectorA = q.Queue(maxsize = len(words))
+    vectorB = q.Queue(maxsize = len(words))
     for w in words:
         valueTF = TF.get(w,0)
         valueIDF = IDF.get(w,0) +1
-        vectorA.append(valueTF*(nDocs / valueIDF))
-        vectorB.append( nDocs / valueIDF)    
-    vectorA = np.array(vectorA)
-    vectorB = np.array(vectorB)
+        vectorA.put(valueTF*(nDocs / valueIDF))
+        vectorB.put( nDocs / valueIDF)
+    vectorA = np.array(queueToList(vectorA))
+    vectorB = np.array(queueToList(vectorB))
     return cs.cosSimilarity(vectorA, vectorB)
+
+def queueToList(Q):
+    L = []
+    print
+    while(not Q.empty()):
+        L.append(Q.get())
+    return L
 
 def searchTFIDF(query, TF, IDF):
     vectors = {}

@@ -1,5 +1,4 @@
 from os import walk, getcwd, path
-import pyodbc
 import json
 from TFIDF import newDocumentIndex
 import numpy as np

@@ -1,1 +1,0 @@
-The 1st day accu-weather worked. The second and subsequent days, it didn't. The icon indicates that wifi is on and other actions indicate wifi is on but accu-weather will not download because it says wifi is not on.

@@ -1,1 +1,0 @@
-Followed directions exactly and it does not work. It scores the bottle, but the bottle will not separate when the next steps are applied.
