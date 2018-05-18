@@ -7,7 +7,7 @@ from textblob import TextBlob as tb
 #INDEXING FUNCTIONS
 
 
-"""
+
 def newDocumentIndex(document, indexIDF):
     words = document.split(" ")
     index = {}
@@ -16,7 +16,6 @@ def newDocumentIndex(document, indexIDF):
     return index
 
 """
-
 def newDocumentIndex(document, indexIDF):
     index = {}
     start = 0
@@ -26,17 +25,10 @@ def newDocumentIndex(document, indexIDF):
             start = i + 1
     return index
 
-"""
-def newDocumentIndex(document,indexIDF):
-    pass
-    return index
-"""
-
-"""
 def newDocumentIndex(filename, indexIDF):
     index = {}
     word = ""
-    with open(filename) as file:
+    with open(filename, buffering= (2<<16) + 8) as file:
         while True:
             c = file.read(1)
             if not c:
@@ -49,12 +41,9 @@ def newDocumentIndex(filename, indexIDF):
 """
 
 def countWord(index, indexIDF, word):
-    try:
-        index[word] = index[word] + 1
-        indexIDF[word] = indexIDF[word] + 1
-    except:
-        index[word] = 1
-        indexIDF[word] = 1
+    index[word] = index.get(word, 0) + 1
+    indexIDF[word] = indexIDF.get(word,0) + 1
+
 
 #TF-IDF FUNCTIONS
 def similarity(TF, IDF, words, nDocs):
