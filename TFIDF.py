@@ -16,16 +16,18 @@ def newDocumentIndex(document, indexIDF):
     return index
 
 """
-def newDocumentIndex(document, indexIDF):
+def newDocumentIndex(filename, indexIDF):
     index = {}
     word = ""
-    while document != "":
-        if document[0] == " ":
-            countWord(index, indexIDF, word)
-            word = ""
-        word += document[0]
-    if word != "":
-        countWord(index, indexIDF, word)
+    with open(filename) as file:
+        while True:
+            c = file.read(1)
+            if not c:
+                break
+            if c == " ":
+                countWord(index, indexIDF, word)
+                word = ""
+            word = word + c
     return index
 """
 
