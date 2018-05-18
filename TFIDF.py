@@ -50,14 +50,8 @@ def similarity(TF, IDF, words, nDocs):
     vectorA = []
     vectorB = []
     for w in words:
-        try:
-            valueTF = TF[w]
-        except:
-            valueTF = 0
-        try:
-            valueIDF = IDF[w] +1
-        except:
-            valueIDF = 1
+        valueTF = TF.get(w,0)
+        valueIDF = IDF.get(w,0) +1
         vectorA.append(valueTF*(nDocs / valueIDF))
         vectorB.append( nDocs / valueIDF)    
     vectorA = np.array(vectorA)

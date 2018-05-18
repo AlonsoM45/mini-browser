@@ -11,9 +11,8 @@ def readJSON(filename):
     os.makedirs("TXT")
     with open(filename) as file:
         data = json.load(file)
-        for entry in data:
-            #print(entry["reviewText"])
-            outFile = open("TXT\\"+ entry["asin"]+".txt", "w")
+        for i,entry in enumerate(data):
+            outFile = open("TXT\\"+ i+".txt", "w")
             outFile.write(entry["reviewText"])
             outFile.close
 readJSON("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\10000.json")
