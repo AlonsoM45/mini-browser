@@ -65,43 +65,45 @@ class self(tkinter.Tk):
     def probSearch(self):
         quest = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
-        uniformDocuments = uniform(documents,70)
+        uniformDocuments = uniform(TF,70)
 
         self.listbox.delete(0, END)
         self.list =[]
-        result = searchTFIDF(quest, uniformDocuments)
+        result = searchTFIDF(quest, uniformDocuments, IDF)
         print(result)
         realQuantity = min(int(quantity), len(result))
         #arreglar
         for x in range(int(realQuantity)):
-            self.list += [uniformDocuments[result[x][0]]]
-            self.listbox.insert(END, [uniformDocuments[result[x][0]]])
+            doc = cargarArchivo(paths[result[x][0]])
+            self.list += [doc]
+            self.listbox.insert(END, doc)
 
     def viewDocument(self):
         index = self.listbox.curselection()
         self.textArea.delete(1.0, END)
         self.textArea.insert(END, self.list[int(index[0])])
 
-def uniform(documents, porcentage):
+def uniform(TF, porcentage):
     available = []
     #arreglar
-    for i in range(len(documents)):
+    for i in range(len(TF)):
         available += [i]
-
     newDocuments = []
-    num = (len(documents)*porcentage)//100
+    num = (len(TF)*porcentage)//100
     #arreglar
     for i in range (num):
-        randomNum = choice(available)-1
-        newDocuments += [documents[available.pop(randomNum)]]
+        randomNum = choice(available)
+        print (randomNum)
+        newDocuments.append(TF[randomNum])
+        available.remove(randomNum)
     return newDocuments
 
 
 
 
 inicial = time()
-TF, IDF, paths = newIndex()
-#TF, IDF, paths = cargarJSON()
+#TF, IDF, paths = newIndex()
+TF, IDF, paths = cargarJSON()
 final = time()
 print ("Duró indexando: "+str(final - inicial)+" segundos")
 

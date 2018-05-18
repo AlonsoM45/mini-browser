@@ -1,0 +1,1 @@
+Does the works! but consume to much battery, so I'm looking to add an electrical DC 4.5v connection for better performant.

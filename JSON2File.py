@@ -12,7 +12,7 @@ def readJSON(filename):
     with open(filename) as file:
         data = json.load(file)
         for i,entry in enumerate(data):
-            outFile = open("TXT\\"+ i+".txt", "w")
+            outFile = open("TXT\\"+ str(i)+".txt", "w")
             outFile.write(entry["reviewText"])
             outFile.close
 readJSON("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\10000.json")
