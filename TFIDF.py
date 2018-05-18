@@ -15,6 +15,20 @@ def newDocumentIndex(document, indexIDF):
         countWord(index,indexIDF, w)
     return index
 
+"""
+def newDocumentIndex(document, indexIDF):
+    index = {}
+    word = ""
+    while document != "":
+        if document[0] == " ":
+            countWord(index, indexIDF, word)
+            word = ""
+        word += document[0]
+    if word != "":
+        countWord(index, indexIDF, word)
+    return index
+"""
+
 def countWord(index, indexIDF, word):
     try:
         index[word] = index[word] + 1
