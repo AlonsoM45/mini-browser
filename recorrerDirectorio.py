@@ -2,6 +2,7 @@ from os import walk, getcwd, path
 import pyodbc
 import json
 from TFIDF import newDocumentIndex
+import numpy as np
 
 
 def newIndex(ruta = getcwd()):
@@ -28,8 +29,8 @@ def buscarArchivo(searched):
                 return cargarArchivo(pathText)
 
 def cargarArchivo(archivo):
-    fo = open(archivo, "r") 
-    resultado = fo.read()
+    fo = open(archivo, "r", buffering=131080) 
+    resultado = fo.readline()
     fo.close()
     return str(resultado)
 
@@ -42,7 +43,7 @@ def guardar (indexTF, indexIDF, paths):
     IDF = json.dumps(indexIDF)
     fo.write(IDF)
     fo.close()
-    fo = open("paths.JSON", "w") #abre en forma de sobrrescribirlo, si no existe lo crea
+    fo = open("paths.JSON", "w") #abr en forma de sobrrescribirlo, si no existe lo crea
     PATHS = json.dumps(paths)
     fo.write(PATHS)
     fo.close()
