@@ -3,36 +3,44 @@ import json
 from TFIDF import newDocumentIndex
 import numpy as np
 import threading
+threadCount = 0
 
 def worker(root, archivo, indexTF, indexIDF, paths):
+    global threadCount
     pathText = path.join(root, archivo)
     paths.append(pathText)
     text = cargarArchivo(pathText)
     newIndex = newDocumentIndex(text, indexIDF)
     indexTF.append(newIndex)
+    threadCount -= 1
 
-def newIndex2(ruta = getcwd()):
+def newIndex(ruta = getcwd()):
     threads = []
+    global threadCount
+    threadCount = 0
     paths = []
     indexTF  = []
     indexIDF = {}
     for (root, _, archivos) in walk(ruta+"\\TXT"):
-        i = 0
-        while not flag:
-            if threadCount < 5:
-                thread = threading.Thread(target = worker(root,archivos[i],indexTF,indexIDF,paths))
-                threads.append(thread)
-                thread.start()
-                i = i + 1
-        for thread in threads:
-            thread.join
+        for archivo in archivos:
+            start = True
+            while(start):
+                if(threadCount<5):
+                    start = False
+                    threadCount += 1
+                    thread = threading.Thread(target = worker(root,archivo,indexTF,indexIDF,paths))
+                    threads.append(thread)
+                    thread.start()
+                    
+    for thread in threads:
+        thread.join
+            
     guardar(indexTF,indexIDF, paths)
-    print (indexTF)
     return indexTF, indexIDF, paths
 
 
  
-def newIndex(ruta = getcwd()):
+def newIndex2(ruta = getcwd()):
     paths = []
     indexTF  = []
     indexIDF = {}
