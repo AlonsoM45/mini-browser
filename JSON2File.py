@@ -15,4 +15,4 @@ def readJSON(filename):
             outFile = open("TXT\\"+ str(i)+".txt", "w")
             outFile.write(entry["reviewText"])
             outFile.close
-readJSON("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\10000.json")
+readJSON("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\1000.json")

@@ -100,8 +100,8 @@ def uniform(TF, porcentage):
 
 
 inicial = time()
-#TF, IDF, paths = newIndex()
-TF, IDF, paths = cargarJSON()
+TF, IDF, paths = newIndex()
+#TF, IDF, paths = cargarJSON()
 final = time()
 print ("Duró indexando: "+str(final - inicial)+" segundos")
 
