@@ -49,12 +49,12 @@ class self(tkinter.Tk):
 
 
     def normalSearch(self):
+        inicial = time()
         quest = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
         self.listbox.delete(0, END)
         self.list =[]
         result = searchTFIDF(quest, TF, IDF)
-        print( result)
         realQuantity = min(int(quantity), len(result))
         #arreglar
         
@@ -62,6 +62,10 @@ class self(tkinter.Tk):
             doc = cargarArchivo(paths[result[x][0]])
             self.list += [doc]
             self.listbox.insert(END, doc)
+
+        final = time()
+        print ("Duró buscando: "+str(final - inicial)+" segundos")
+
 
     def probSearch(self):
         quest = self.textBoxSearch.get()
