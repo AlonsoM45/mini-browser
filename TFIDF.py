@@ -27,6 +27,12 @@ def newDocumentIndex(document, indexIDF):
     return index
 
 """
+def newDocumentIndex(document,indexIDF):
+    pass
+    return index
+"""
+
+"""
 def newDocumentIndex(filename, indexIDF):
     index = {}
     word = ""
