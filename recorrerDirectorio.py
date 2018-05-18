@@ -3,6 +3,12 @@ import json
 from TFIDF import newDocumentIndex
 import numpy as np
 
+def worker(root, archivo, indexTF, indexIDF, paths):
+    pathText = path.join(root, archivo)
+    paths.append(pathText)
+    text = cargarArchivo(pathText)
+    newIndex = newDocumentIndex(text, indexIDF)
+    indexTF.append(newIndex)
 
 def newIndex(ruta = getcwd()):
     paths = []
@@ -10,11 +16,11 @@ def newIndex(ruta = getcwd()):
     indexIDF = {}
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
-            pathText = path.join(root, archivo)
-            paths.append(pathText)
-            text = cargarArchivo(pathText)
-            newIndex = newDocumentIndex(text, indexIDF)
-            indexTF.append(newIndex)
+            thread = threading.Thread(target = worker(root,archivo,indexTF,indexIDF,paths))
+            threads.append(thread)
+            thread.start()
+        for thread in threads:
+            thread.join
     guardar(indexTF,indexIDF, paths)
     return indexTF, indexIDF, paths
 
