@@ -16,31 +16,6 @@ def newDocumentIndex(document, indexIDF):
         countWord(index,indexIDF, w)
     return index
 
-"""
-def newDocumentIndex(document, indexIDF):
-    index = {}
-    start = 0
-    for i in range(len(document)):
-        if document[i] == " ":       
-            countWord(index,indexIDF, document[start:i])
-            start = i + 1
-    return index
-
-def newDocumentIndex(filename, indexIDF):
-    index = {}
-    word = ""
-    with open(filename, buffering= (2<<16) + 8) as file:
-        while True:
-            c = file.read(1)
-            if not c:
-                break
-            if c == " ":
-                countWord(index, indexIDF, word)
-                word = ""
-            word = word + c
-    return index
-"""
-
 def countWord(index, indexIDF, word):
     index[word] = index.get(word, 0) + 1
     indexIDF[word] = indexIDF.get(word,0) + 1
@@ -61,11 +36,16 @@ def similarity(TF, IDF, words, nDocs):
 
 def queueToList(Q):
     L = []
-    print
     while(not Q.empty()):
         L.append(Q.get())
     return L
 
+def lowestSort(L, maxsize):
+    L = sorted(L, key = lambda tup: tup[1], reverse = True)
+    while len(L) > maxsize:
+        del L[-1]
+    return L, L[-1]
+    
 def searchTFIDF(query, TF, IDF):
     vectors = {}
     words = query.split(" ")
@@ -75,3 +55,14 @@ def searchTFIDF(query, TF, IDF):
             vectors[i] = similarityDoc
     sortedList = sorted(vectors.items(), key=operator.itemgetter(1), reverse=True)
     return sortedList
+
+def searchTFIDF(query, TF, IDF, maxsize):
+    vectors = []
+    words = query.split(" ")
+    lowest = 0
+    for i in range(len(TF)):
+        similarityDoc = similarity(TF[i],IDF, words, len(TF))
+        if similarityDoc > lowest:
+            vectors.append( (i, similarityDoc))
+            vectors, lowest = lowestSort(vectors, maxsize)
+    return vectors
