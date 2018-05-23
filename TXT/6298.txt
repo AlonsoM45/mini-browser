@@ -1,0 +1,1 @@
+Does not let you pick the contestants row.  coins  you pick the first coin gives you the second one.  Out of three coins and so on

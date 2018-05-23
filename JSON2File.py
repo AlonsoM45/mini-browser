@@ -18,7 +18,7 @@ def readJSON(filename):
             outFile = open("TXT\\"+ str(i)+".txt", "w")
             outFile.write(entry["reviewText"])
             outFile.close
-#readJSON("C:\\Users\\Rubén González V\\Documents\\mini-browser\\reviews_Books.json")
+readJSON("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\10000.json")
 
 
 def parse(path):
@@ -28,10 +28,10 @@ def parse(path):
 def read():
     os.makedirs("TXT")
     i=0
-    for review in parse("C:\\Users\\Rubén González V\\Documents\\mini-browser\\reviews_Books.json.gz"):
+    for review in parse("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\reviews_Books.json.gz"):
         outFile = open("TXT\\"+ str(i)+".txt", "w")
         outFile.write(review['reviewText'])
         outFile.close
         i +=1
 
-read()
+#read()

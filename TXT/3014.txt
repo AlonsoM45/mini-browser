@@ -1,0 +1,1 @@
+A very well structured book. It is not only a good book on Java Threading, it is also an example for all others to follow when writing about programming, or indeed any other subject. The examples are very short, but packed with wisdom. Buy this book!

@@ -44,8 +44,8 @@ def lowestSort(L, maxsize):
     L = sorted(L, key = lambda tup: tup[1], reverse = True)
     while len(L) > maxsize:
         del L[-1]
-    return L, L[-1]
-    
+    return L, L[-1][0]
+"""
 def searchTFIDF(query, TF, IDF):
     vectors = {}
     words = query.split(" ")
@@ -55,7 +55,7 @@ def searchTFIDF(query, TF, IDF):
             vectors[i] = similarityDoc
     sortedList = sorted(vectors.items(), key=operator.itemgetter(1), reverse=True)
     return sortedList
-
+"""
 def searchTFIDF(query, TF, IDF, maxsize):
     vectors = []
     words = query.split(" ")
