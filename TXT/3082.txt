@@ -1,1 +1,0 @@
-When I saw the optical port, I assumed that this card had Dolby or DTS on it. It does not. This means that your optical port will only transmit in PCM, AKA 2 channels. This makes the Optical port nearly pointless. Although, I did get true 5.1 surround sound using the ports on the sound card and my receiver that has multi channel input.

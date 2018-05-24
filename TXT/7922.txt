@@ -1,1 +1,0 @@
-The lock is ok but it needed modification to accommodate the safety lock mechanism on the shotgun I want to use it on

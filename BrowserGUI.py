@@ -51,7 +51,11 @@ class self(tkinter.Tk):
         quantity = self.textBoxQuantity.get()
         self.listbox.delete(0, END)
         self.list =[]
+        inicial = time()
         result = searchTFIDF(quest, TF, IDF, int(quantity))
+        final = time()
+        print ("Duró buscando: "+str(final - inicial)+" segundos")
+        
         realQuantity = min(int(quantity), len(result))
         #arreglar
         

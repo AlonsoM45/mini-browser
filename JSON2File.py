@@ -6,7 +6,7 @@ import gzip
 
 import FormatJSON as RJ
 def readJSON(filename):
-    RJ.formatJSON(filename)
+    #RJ.formatJSON(filename)
     try:
         shutil.rmtree("TXT")
     except:
@@ -18,7 +18,7 @@ def readJSON(filename):
             outFile = open("TXT\\"+ str(i)+".txt", "w")
             outFile.write(entry["reviewText"])
             outFile.close
-readJSON("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\10000.json")
+readJSON("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\100000.json")
 
 
 def parse(path):
@@ -28,7 +28,7 @@ def parse(path):
 def read():
     os.makedirs("TXT")
     i=0
-    for review in parse("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\reviews_Books.json.gz"):
+    for review in parse("C:\\Users\\Rubén González V\\Desktop\\mini-browser\\100000.json.gz"):
         outFile = open("TXT\\"+ str(i)+".txt", "w")
         outFile.write(review['reviewText'])
         outFile.close

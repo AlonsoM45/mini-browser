@@ -1,1 +1,0 @@
-Unit works as advertised. Plug it in and the computer recognizes it. Using windows 7. Using it on the front usb.

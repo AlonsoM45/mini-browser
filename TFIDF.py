@@ -44,7 +44,7 @@ def lowestSort(L, maxsize):
     L = sorted(L, key = lambda tup: tup[1], reverse = True)
     while len(L) > maxsize:
         del L[-1]
-    return L, L[-1][0]
+    return L, L[-1]
 """
 def searchTFIDF(query, TF, IDF):
     vectors = {}
@@ -57,12 +57,17 @@ def searchTFIDF(query, TF, IDF):
     return sortedList
 """
 def searchTFIDF(query, TF, IDF, maxsize):
+    x = 0
     vectors = []
     words = query.split(" ")
-    lowest = 0
+    lowest = (0, 0)
     for i in range(len(TF)):
         similarityDoc = similarity(TF[i],IDF, words, len(TF))
-        if similarityDoc > lowest:
+        if similarityDoc > lowest[1] or len(vectors) < maxsize:
             vectors.append( (i, similarityDoc))
             vectors, lowest = lowestSort(vectors, maxsize)
+        
+        x = x + 1
+    print(x, lowest)
     return vectors
+
