@@ -3,21 +3,10 @@ import json
 from TFIDF import newDocumentIndex
 import numpy as np
 import threading
+import pickle
 threadCount = 0
-maxTFsize = 100000
-
-def worker(root, archivo, indexTF, indexIDF, paths):
-    global threadCount
-    pathText = path.join(root, archivo)
-    paths.append(pathText)
-    text = cargarArchivo(pathText)
-    newIndex = newDocumentIndex(text, indexIDF)
-    indexTF.append(newIndex)
-    threadCount -= 1
 
 def newIndex(ruta = getcwd()):
-    threads = []
-    global threadCount
     threadCount = 0
     paths = []
     indexTF  = []
@@ -31,45 +20,17 @@ def newIndex(ruta = getcwd()):
             text = cargarArchivo(pathText)
             newIndex = newDocumentIndex(text, indexIDF)
             indexTF.append(newIndex)
-            TFsize = TFsize = + 1
-            if TFsize == maxTFsize:
-                with open(TFnumber+'.pickle', 'wb') as handle:
+            TFsize = TFsize  + 1
+            if TFsize == 1000000:
+                with open(str(TFnumber)+'.pickle', 'wb') as handle:
                     pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
-                    TFnumber = TFnumber = + 1
-                    indexTF = 0
+                    TFnumber = TFnumber  + 1
+                    indexTF = []
                     TFsize = 0
-            #start = True
-            #while(start):
-                #if(threadCount<5):
-                   # start = False
-                   # threadCount += 1
-                    #thread = threading.Thread(target = worker(root,archivo,indexTF,indexIDF,paths))
-                    #threads.append(thread)
-                   # thread.start()
-                    
-    #for thread in threads:
-     #   thread.join
+                    handle.close()
             
     guardar(indexTF,indexIDF, paths)
     return indexTF, indexIDF, paths
-
-
- 
-def newIndex2(ruta = getcwd()):
-    paths = []
-    indexTF  = []
-    indexIDF = {}
-    for (root, _, archivos) in walk(ruta+"\\TXT"):
-        for archivo in archivos:
-            pathText = path.join(root, archivo)
-            paths.append(pathText)
-            text = cargarArchivo(pathText)
-            newIndex = newDocumentIndex(text, indexIDF)
-            indexTF.append(newIndex)
-    guardar(indexTF,indexIDF, paths)
-    return indexTF, indexIDF, paths
-
-
 
 def cargarArchivo(archivo):
     fo = open(archivo) 

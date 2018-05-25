@@ -47,12 +47,13 @@ class self(tkinter.Tk):
 
 
     def normalSearch(self):
-        quest = self.textBoxSearch.get()
+        query = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
         self.listbox.delete(0, END)
         self.list =[]
         inicial = time()
-        result = searchTFIDF(quest, TF, IDF, int(quantity))
+        #result = searchTFIDF(query, TF, IDF, int(quantity))
+        result = searchTFIDF(query,23, IDF, int(quantity))
         final = time()
         print ("Duró buscando: "+str(final - inicial)+" segundos")
         

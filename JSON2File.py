@@ -20,7 +20,7 @@ def readJSON(filename):
             outFile.write(review['reviewText'])
             outFile.close
             i +=1
-readJSON("C:\\Users\\Virtual\\Documents\\GitHub\\mini-browser\\100000.json")
+readJSON("C:\\Users\\Virtual\\Documents\\GitHub\\mini-browser\\1000.json")
 
 
 def parse(path):

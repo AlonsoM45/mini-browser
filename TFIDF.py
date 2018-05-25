@@ -3,7 +3,8 @@ import CosineSimilarity as cs
 import operator
 import numpy as np
 import queue as q
-maxTFsize = 1000000
+import pickle
+
 #INDEXING FUNCTIONS
 
 
@@ -39,9 +40,9 @@ def queueToList(Q):
         L.append(Q.get())
     return L
 
-def sortedInsert(L, element):
+def sortedInsert(L, element, maxsize):
     i = 0
-    while  i < len(L) and L[i] < element :
+    while  i < len(L) and L[i][1] < element[1] :
         i = i + 1
     L.insert(i, element)
     diff = len(L) - maxsize
@@ -59,7 +60,7 @@ def searchTFIDF(query, TF, IDF):
             vectors[i] = similarityDoc
     sortedList = sorted(vectors.items(), key=operator.itemgetter(1), reverse=True)
     return sortedList
-"""
+
 
 def searchTFIDF(query, TF, IDF, maxsize):
     vectors = []
@@ -68,24 +69,27 @@ def searchTFIDF(query, TF, IDF, maxsize):
     for i in range(len(TF)):
         similarityDoc = similarity(TF[i],IDF, words, len(TF))
         if similarityDoc > lowest[1] or len(vectors) < maxsize:
-            L = sortedInsert( vectors, (i, similarityDoc))
+            L = sortedInsert( vectors, (i, similarityDoc), maxsize)
             lowest = L[0]
     vectors.reverse()
     return vectors
-
-def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize):
+"""
+def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     vectors = []
     words = query.split(" ")
     lowest = (0, 0)
     TFnumber = 0
-    while TFnumber <= maxTFnumber:        
-        with open('filename.pickle', 'rb') as handle:
+    while TFnumber < maxTFnumber:        
+        with open(str(TFnumber)+'.pickle', 'rb') as handle:
             TF = pickle.load(handle)
+        lowest = 0
         for i in range(len(TF)):
-            similarityDoc = similarity(TF[realIndex],IDF, words, len(TF))
-            if similarityDoc > lowest[1] or len(vectors) < maxsize:
+            similarityDoc = similarity(TF[i],IDF, words, len(TF))
+            if similarityDoc > lowest:
                 ID = maxTFsize * TFnumber + i
-                vectors = sortedInsert( vectors, (ID, similarityDoc))
-                lowest = vectors
+                vectors = sortedInsert( vectors, (ID, similarityDoc), maxsize)
+                lowest = vectors[0][1]
+        TFnumber = TFnumber + 1
+        handle.close()
     vectors.reverse()
     return vectors
