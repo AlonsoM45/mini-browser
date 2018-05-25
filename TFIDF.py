@@ -2,7 +2,6 @@ import math
 import CosineSimilarity as cs
 import operator
 import numpy as np
-from textblob import TextBlob as tb
 import queue as q
 
 #INDEXING FUNCTIONS

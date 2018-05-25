@@ -23,17 +23,22 @@ def newIndex(ruta = getcwd()):
     indexIDF = {}
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
-            start = True
-            while(start):
-                if(threadCount<5):
-                    start = False
-                    threadCount += 1
-                    thread = threading.Thread(target = worker(root,archivo,indexTF,indexIDF,paths))
-                    threads.append(thread)
-                    thread.start()
+            pathText = path.join(root, archivo)
+            paths.append(pathText)
+            text = cargarArchivo(pathText)
+            newIndex = newDocumentIndex(text, indexIDF)
+            indexTF.append(newIndex)
+            #start = True
+            #while(start):
+                #if(threadCount<5):
+                   # start = False
+                   # threadCount += 1
+                    #thread = threading.Thread(target = worker(root,archivo,indexTF,indexIDF,paths))
+                    #threads.append(thread)
+                   # thread.start()
                     
-    for thread in threads:
-        thread.join
+    #for thread in threads:
+     #   thread.join
             
     guardar(indexTF,indexIDF, paths)
     return indexTF, indexIDF, paths
