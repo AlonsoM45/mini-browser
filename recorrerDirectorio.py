@@ -7,12 +7,12 @@ import pickle
 threadCount = 0
 
 def newIndex(ruta = getcwd()):
-    threadCount = 0
     paths = []
     indexTF  = []
     indexIDF = {}
     TFsize = 0
     TFnumber = 0
+    totalSize = 0
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
             pathText = path.join(root, archivo)
@@ -28,9 +28,15 @@ def newIndex(ruta = getcwd()):
                     indexTF = []
                     TFsize = 0
                     handle.close()
-            
-    guardar(indexTF,indexIDF, paths)
-    return indexTF, indexIDF, paths
+        if TFsize > 0:
+            with open(str(TFnumber)+'.pickle', 'wb') as handle:
+                pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
+                TFnumber = TFnumber  + 1
+                indexTF  = []
+                TFsize   = 0
+                handle.close()
+    guardar(indexIDF, paths)
+    return indexIDF, paths, TFnumber 
 
 def cargarArchivo(archivo):
     fo = open(archivo) 
@@ -38,11 +44,7 @@ def cargarArchivo(archivo):
     fo.close()
     return str(resultado)
 
-def guardar (indexTF, indexIDF, paths):
-    fo = open("indexTF.JSON", "w") #abre en forma de sobrrescribirlo, si no existe lo crea
-    TF = json.dumps(indexTF)
-    fo.write(TF)
-    fo.close()
+def guardar (indexIDF, paths):
     fo = open("indexIDF.JSON", "w") #abre en forma de sobrrescribirlo, si no existe lo crea
     IDF = json.dumps(indexIDF)
     fo.write(IDF)

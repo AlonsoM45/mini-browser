@@ -85,11 +85,13 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
         lowest = 0
         for i in range(len(TF)):
             similarityDoc = similarity(TF[i],IDF, words, len(TF))
-            if similarityDoc > lowest:
+
+            if similarityDoc >= lowest and similarityDoc > 0:
                 ID = maxTFsize * TFnumber + i
                 vectors = sortedInsert( vectors, (ID, similarityDoc), maxsize)
                 lowest = vectors[0][1]
         TFnumber = TFnumber + 1
         handle.close()
     vectors.reverse()
+    print(vectors)
     return vectors

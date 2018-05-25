@@ -53,7 +53,8 @@ class self(tkinter.Tk):
         self.list =[]
         inicial = time()
         #result = searchTFIDF(query, TF, IDF, int(quantity))
-        result = searchTFIDF(query,23, IDF, int(quantity))
+        print(totalSize)
+        result = searchTFIDF(query, totalSize, IDF, int(quantity))
         final = time()
         print ("Duró buscando: "+str(final - inicial)+" segundos")
         
@@ -105,8 +106,8 @@ def uniform(TF, porcentage):
 
 
 inicial = time()
-TF, IDF, paths = newIndex()
-#TF, IDF, paths = cargarJSON()
+IDF, paths, totalSize = newIndex()
+#IDF, paths = cargarJSON()
 final = time()
 print ("Duró indexando: "+str(final - inicial)+" segundos")
 
