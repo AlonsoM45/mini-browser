@@ -4,6 +4,7 @@ from TFIDF import newDocumentIndex
 import numpy as np
 import threading
 threadCount = 0
+maxTFsize = 100000
 
 def worker(root, archivo, indexTF, indexIDF, paths):
     global threadCount
@@ -21,6 +22,8 @@ def newIndex(ruta = getcwd()):
     paths = []
     indexTF  = []
     indexIDF = {}
+    TFsize = 0
+    TFnumber = 0
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
             pathText = path.join(root, archivo)
@@ -28,6 +31,13 @@ def newIndex(ruta = getcwd()):
             text = cargarArchivo(pathText)
             newIndex = newDocumentIndex(text, indexIDF)
             indexTF.append(newIndex)
+            TFsize = TFsize = + 1
+            if TFsize == maxTFsize:
+                with open(TFnumber+'.pickle', 'wb') as handle:
+                    pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
+                    TFnumber = TFnumber = + 1
+                    indexTF = 0
+                    TFsize = 0
             #start = True
             #while(start):
                 #if(threadCount<5):

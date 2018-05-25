@@ -3,7 +3,7 @@ import CosineSimilarity as cs
 import operator
 import numpy as np
 import queue as q
-
+maxTFsize = 1000000
 #INDEXING FUNCTIONS
 
 
@@ -39,11 +39,16 @@ def queueToList(Q):
         L.append(Q.get())
     return L
 
-def lowestSort(L, maxsize):
-    L = sorted(L, key = lambda tup: tup[1], reverse = True)
-    while len(L) > maxsize:
-        del L[-1]
-    return L, L[-1]
+def sortedInsert(L, element):
+    i = 0
+    while  i < len(L) and L[i] < element :
+        i = i + 1
+    L.insert(i, element)
+    diff = len(L) - maxsize
+    if diff > 0:
+        L = L[:diff]
+    return L
+    
 """
 def searchTFIDF(query, TF, IDF):
     vectors = {}
@@ -55,18 +60,32 @@ def searchTFIDF(query, TF, IDF):
     sortedList = sorted(vectors.items(), key=operator.itemgetter(1), reverse=True)
     return sortedList
 """
+
 def searchTFIDF(query, TF, IDF, maxsize):
-    x = 0
     vectors = []
     words = query.split(" ")
     lowest = (0, 0)
     for i in range(len(TF)):
         similarityDoc = similarity(TF[i],IDF, words, len(TF))
         if similarityDoc > lowest[1] or len(vectors) < maxsize:
-            vectors.append( (i, similarityDoc))
-            vectors, lowest = lowestSort(vectors, maxsize)
-        
-        x = x + 1
-    print(x, lowest)
+            L = sortedInsert( vectors, (i, similarityDoc))
+            lowest = L[0]
+    vectors.reverse()
     return vectors
 
+def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize):
+    vectors = []
+    words = query.split(" ")
+    lowest = (0, 0)
+    TFnumber = 0
+    while TFnumber <= maxTFnumber:        
+        with open('filename.pickle', 'rb') as handle:
+            TF = pickle.load(handle)
+        for i in range(len(TF)):
+            similarityDoc = similarity(TF[realIndex],IDF, words, len(TF))
+            if similarityDoc > lowest[1] or len(vectors) < maxsize:
+                ID = maxTFsize * TFnumber + i
+                vectors = sortedInsert( vectors, (ID, similarityDoc))
+                lowest = vectors
+    vectors.reverse()
+    return vectors
