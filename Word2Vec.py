@@ -6,8 +6,8 @@ import csv
 
 FILE_PATH = 'C:\\Users\\Lenovo\\Desktop\\embeddingscsv.csv'
 SHEET = 'embeddings'
-
-words = pd.read_table(FILE_PATH, sep=' ', index_col=0,header=None,quoting=csv.QUOTE_NONE,na_values=None,keep_default_na=False)
+### Manual
+words = pd.read_table(FILE_PATH, sep='\n', index_col=0,header=None,quoting=csv.QUOTE_NONE,na_values=None,keep_default_na=False)
 
 def vec(w):
     return words.loc[w].as_matrix()
@@ -19,3 +19,5 @@ def find_closest_word(v):
     delta = np.sum(diff * diff, axis=1)
     i = np.argmin(delta)
     return words.iloc[i].name
+
+print(words.loc[5])
