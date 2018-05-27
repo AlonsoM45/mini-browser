@@ -22,12 +22,8 @@ def countWord(index, indexIDF, word):
 
 #TF-IDF FUNCTIONS
 def similarity(TF, IDF, words, queryVector, nDocs):
-    vectorA = q.Queue(maxsize = len(words))
-    for w in words:
-        valueTF = TF.get(w,0)
-        valueIDF = IDF.get(w,0) +1
-        vectorA.put(valueTF*(nDocs / valueIDF))
-    vectorA = np.array(queueToList(vectorA))
+    vectorA = map(lambda w: TF.get(w,0) *(nDocs /  (IDF.get(w,0) + 1) ), words)
+    vectorA = np.array(list(vectorA))
     return cs.cosSimilarity(vectorA, queryVector)
 
 def vectorize(IDF, query, nDocs):
