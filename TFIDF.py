@@ -86,7 +86,7 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
         for i in range(len(TF)):
             similarityDoc = similarity(TF[i],IDF, words, len(TF))
 
-            if similarityDoc >= lowest and similarityDoc > 0:
+            if similarityDoc >= lowest and similarityDoc > 0.5:
                 ID = maxTFsize * TFnumber + i
                 vectors = sortedInsert( vectors, (ID, similarityDoc), maxsize)
                 lowest = vectors[0][1]
@@ -95,3 +95,15 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     vectors.reverse()
     print(vectors)
     return vectors
+
+def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
+    vectors = q.Queue()
+    words = query.split(" ")
+    for i in range(len(TF)):
+        similarityDoc = similarity(TF[i],IDF, words, len(TF))
+        if (similarityDoc > 0.5):
+            vectors.put((i, similarityDoc))
+    vectorType = [('id',int), ('similarity', float)]
+    final = np.array(queueToList(vectorA), dtype = vectorType)
+    sortedList = np.sort(final, order = 'similarity')    
+    return sortedList
