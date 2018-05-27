@@ -1,1 +1,0 @@
-Slight defect - case face bent when received, tried to bend back but thought it would degrade the water tight seal

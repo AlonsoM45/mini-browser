@@ -12,7 +12,7 @@ def newIndex(ruta = getcwd()):
     indexIDF = {}
     TFsize = 0
     TFnumber = 0
-    totalSize = 0
+    ruta = "C:\\Users\\Virtual\\Documents"
     for (root, _, archivos) in walk(ruta+"\\TXT"):
         for archivo in archivos:
             pathText = path.join(root, archivo)
@@ -28,6 +28,7 @@ def newIndex(ruta = getcwd()):
                     indexTF = []
                     TFsize = 0
                     handle.close()
+                    print (TFnumber)
         if TFsize > 0:
             with open(str(TFnumber)+'.pickle', 'wb') as handle:
                 pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
@@ -35,7 +36,8 @@ def newIndex(ruta = getcwd()):
                 indexTF  = []
                 TFsize   = 0
                 handle.close()
-    guardar(indexIDF, paths)
+        
+    guardar(indexIDF, paths,  TFnumber )
     return indexIDF, paths, TFnumber 
 
 def cargarArchivo(archivo):
@@ -44,7 +46,7 @@ def cargarArchivo(archivo):
     fo.close()
     return str(resultado)
 
-def guardar (indexIDF, paths):
+def guardar (indexIDF, paths,TFnumber ):
     fo = open("indexIDF.JSON", "w") #abre en forma de sobrrescribirlo, si no existe lo crea
     IDF = json.dumps(indexIDF)
     fo.write(IDF)
@@ -53,17 +55,21 @@ def guardar (indexIDF, paths):
     PATHS = json.dumps(paths)
     fo.write(PATHS)
     fo.close()
+    fo = open("TFnumber.JSON", "w") #abr en forma de sobrrescribirlo, si no existe lo crea
+    TFNUMBER = json.dumps(TFnumber)
+    fo.write(TFNUMBER)
+    fo.close()
 
 def cargarJSON():
-    fo = open("indexTF.JSON", "r") 
-    TF = json.loads(fo.read())
-    fo.close()
     fo = open("indexIDF.JSON", "r") 
     ITF = json.loads(fo.read())
     fo.close()
     fo = open("paths.JSON", "r") 
     PATHS = json.loads(fo.read())
     fo.close()
-    return TF, ITF, PATHS
+    fo = open("TFnumber.JSON", "r") 
+    TFNUMBER = json.loads(fo.read())
+    fo.close()
+    return ITF, PATHS, TFNUMBER
 
 

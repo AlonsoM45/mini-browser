@@ -29,7 +29,7 @@ def parse(path):
         yield eval(l)
 def read():
     os.makedirs("TXTA")
-    i = 19787777
+    i = 0
     for review in parse("C:\\Users\\Virtual\\Documents\\reviews_Books.json.gz"):
         outFile = open("TXTA\\"+ str(i)+".txt", "w")
         outFile.write(review['reviewText'])
