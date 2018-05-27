@@ -21,18 +21,18 @@ def countWord(index, indexIDF, word):
 
 
 #TF-IDF FUNCTIONS
-def similarity(TF, IDF, words, nDocs):
+def similarity(TF, IDF, words, queryVector, nDocs):
     vectorA = q.Queue(maxsize = len(words))
-    vectorB = q.Queue(maxsize = len(words))
     for w in words:
         valueTF = TF.get(w,0)
         valueIDF = IDF.get(w,0) +1
         vectorA.put(valueTF*(nDocs / valueIDF))
-        vectorB.put( nDocs / valueIDF)
     vectorA = np.array(queueToList(vectorA))
-    vectorB = np.array(queueToList(vectorB))
-    return cs.cosSimilarity(vectorA, vectorB)
+    return cs.cosSimilarity(vectorA, queryVector)
 
+def vectorize(IDF, query, nDocs):
+    return np.array(list(map(lambda x: nDocs/ IDF[x], query.split())))
+    
 def queueToList(Q):
     L = []
     while(not Q.empty()):
@@ -75,17 +75,18 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     vectors = q.Queue()
     words = query.split(" ")
     TFnumber = 0
+    queryVector = vectorize(IDF, query, maxTFnumber * maxTFsize)
     while TFnumber < maxTFnumber:        
         with open(str(TFnumber)+'.pickle', 'rb') as handle:
             TF = pickle.load(handle)
         for i in range(len(TF)):
-            similarityDoc = similarity(TF[i],IDF, words, len(TF))
+            similarityDoc = similarity(TF[i],IDF, words, queryVector, len(TF))
             if similarityDoc > 0.90:
                 ID = maxTFsize * TFnumber + i
                 vectors.put((ID, similarityDoc))
         TFnumber = TFnumber + 1
         handle.close()
-        
+
     vectorType = [('id',int), ('similarity', float)]
     final = np.array(queueToList(vectors), dtype = vectorType)
     sortedList = np.sort(final, order = 'similarity')
