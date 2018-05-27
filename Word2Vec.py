@@ -33,6 +33,8 @@ def W2V(data):
     pickle.dump(vectorialSpace, fp)
     fp.close()
 
+W2V(words)
+
 
         
     
