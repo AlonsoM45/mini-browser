@@ -4,10 +4,9 @@ import operator
 import numpy as np
 import queue as q
 import pickle
+from time import time
 
 #INDEXING FUNCTIONS
-
-
 
 def newDocumentIndex(document, indexIDF):
     words = document.split(" ")
@@ -17,7 +16,7 @@ def newDocumentIndex(document, indexIDF):
     return index
 
 def countWord(index, indexIDF, word):
-    index[word] = index.get(word, 0) + 1
+    index[word] = index.get(word, 0) 
     indexIDF[word] = indexIDF.get(word,0) + 1
 
 
@@ -49,31 +48,7 @@ def sortedInsert(L, element, maxsize):
     if diff > 0:
         L = L[:diff]
     return L
-    
-"""
-def searchTFIDF(query, TF, IDF):
-    vectors = {}
-    words = query.split(" ")
-    for i in range(len(TF)):
-        similarityDoc = similarity(TF[i],IDF, words, len(TF))
-        if (similarityDoc !=0):
-            vectors[i] = similarityDoc
-    sortedList = sorted(vectors.items(), key=operator.itemgetter(1), reverse=True)
-    return sortedList
 
-
-def searchTFIDF(query, TF, IDF, maxsize):
-    vectors = []
-    words = query.split(" ")
-    lowest = (0, 0)
-    for i in range(len(TF)):
-        similarityDoc = similarity(TF[i],IDF, words, len(TF))
-        if similarityDoc > lowest[1] or len(vectors) < maxsize:
-            L = sortedInsert( vectors, (i, similarityDoc), maxsize)
-            lowest = L[0]
-    vectors.reverse()
-    return vectors
-"""
 def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     vectors = []
     words = query.split(" ")
@@ -85,8 +60,7 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
         lowest = 0
         for i in range(len(TF)):
             similarityDoc = similarity(TF[i],IDF, words, len(TF))
-
-            if similarityDoc >= lowest and similarityDoc > 0.5:
+            if (similarityDoc >= lowest or len(vectors) < maxsize) and similarityDoc > 0.75:
                 ID = maxTFsize * TFnumber + i
                 vectors = sortedInsert( vectors, (ID, similarityDoc), maxsize)
                 lowest = vectors[0][1]
@@ -96,14 +70,24 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     print(vectors)
     return vectors
 
+
 def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     vectors = q.Queue()
     words = query.split(" ")
-    for i in range(len(TF)):
-        similarityDoc = similarity(TF[i],IDF, words, len(TF))
-        if (similarityDoc > 0.5):
-            vectors.put((i, similarityDoc))
+    TFnumber = 0
+    while TFnumber < maxTFnumber:        
+        with open(str(TFnumber)+'.pickle', 'rb') as handle:
+            TF = pickle.load(handle)
+        for i in range(len(TF)):
+            similarityDoc = similarity(TF[i],IDF, words, len(TF))
+            if similarityDoc > 0.90:
+                ID = maxTFsize * TFnumber + i
+                vectors.put((ID, similarityDoc))
+        TFnumber = TFnumber + 1
+        handle.close()
+        
     vectorType = [('id',int), ('similarity', float)]
-    final = np.array(queueToList(vectorA), dtype = vectorType)
-    sortedList = np.sort(final, order = 'similarity')    
+    final = np.array(queueToList(vectors), dtype = vectorType)
+    sortedList = np.sort(final, order = 'similarity')
+    sortedList = sortedList[::-1]
     return sortedList
