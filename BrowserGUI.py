@@ -54,7 +54,7 @@ class self(tkinter.Tk):
         inicial = time()
         #result = searchTFIDF(query, TF, IDF, int(quantity))
         print(totalSize)
-        result = searchTFIDF(query, totalSize-1, IDF, int(quantity))
+        result = searchTFIDF(query, totalSize, IDF, int(quantity))
         final = time()
         print ("Duró buscando: "+str(final - inicial)+" segundos")
         
