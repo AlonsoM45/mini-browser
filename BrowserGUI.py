@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter
 from random import choice
-from TFIDF import searchTFIDF
+from TFIDF import searchTFIDF, probTFIDF
 from recorrerDirectorio import newIndex2, cargarArchivo, cargarJSON
 from time import time
 
@@ -62,23 +62,25 @@ class self(tkinter.Tk):
         #arreglar
         
         for x in range(int(realQuantity)):
-            print (result[x][0])
-            print (len(paths))
             doc = cargarArchivo(paths[result[x][0]])
             self.list += [doc]
             self.listbox.insert(END, doc)
 
     def probSearch(self):
-        quest = self.textBoxSearch.get()
+        query = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
-        uniformDocuments = uniform(TF,70)
-
         self.listbox.delete(0, END)
         self.list =[]
-        result = searchTFIDF(quest, uniformDocuments, IDF,int(quantity))
-        print(result)
+        inicial = time()
+        #result = searchTFIDF(query, TF, IDF, int(quantity))
+        print(totalSize)
+        result = probTFIDF(query, totalSize, IDF, int(quantity))
+        final = time()
+        print ("Duró buscando: "+str(final - inicial)+" segundos")
+        
         realQuantity = min(int(quantity), len(result))
         #arreglar
+        
         for x in range(int(realQuantity)):
             doc = cargarArchivo(paths[result[x][0]])
             self.list += [doc]
@@ -109,6 +111,7 @@ def uniform(TF, porcentage):
 
 inicial = time()
 #IDF, paths, totalSize = newIndex2()
+#IDF, paths, totalSize = newIndex()
 IDF, paths, totalSize = cargarJSON()
 final = time()
 print ("Duró indexando: "+str(final - inicial)+" segundos")

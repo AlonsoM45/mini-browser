@@ -45,29 +45,7 @@ def sortedInsert(L, element, maxsize):
         L = L[:diff]
     return L
 
-def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
-    vectors = []
-    words = query.split(" ")
-    lowest = (0, 0)
-    TFnumber = 0
-    while TFnumber < maxTFnumber:        
-        with open(str(TFnumber)+'.pickle', 'rb') as handle:
-            TF = pickle.load(handle)
-        lowest = 0
-        for i in range(len(TF)):
-            similarityDoc = similarity(TF[i],IDF, words, len(TF))
-            if (similarityDoc >= lowest or len(vectors) < maxsize) and similarityDoc > 0.75:
-                ID = maxTFsize * TFnumber + i
-                vectors = sortedInsert( vectors, (ID, similarityDoc), maxsize)
-                lowest = vectors[0][1]
-        TFnumber = TFnumber + 1
-        handle.close()
-    vectors.reverse()
-    print(vectors)
-    return vectors
-
-
-def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=10000):
+def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000):
     vectors = q.Queue()
     words = query.split(" ")
     TFnumber = 0
@@ -77,7 +55,28 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=10000):
             TF = pickle.load(handle)
         for i in range(len(TF)):
             similarityDoc = similarity(TF[i],IDF, words, queryVector, len(TF))
-            if similarityDoc > 0.90:
+            if similarityDoc > 0.75:
+                ID = maxTFsize * TFnumber + i
+                vectors.put((ID, similarityDoc))
+        TFnumber = TFnumber + 1
+        handle.close()
+    vectorType = [('id',int), ('similarity', float)]
+    final = np.array(queueToList(vectors), dtype = vectorType)
+    sortedList = np.sort(final, order = 'similarity')
+    sortedList = sortedList[::-1]
+    return sortedList
+
+def probTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000, parts = 70):
+    vectors = q.Queue()
+    words = query.split(" ")
+    TFnumber = 0
+    queryVector = vectorize(IDF, query, maxTFnumber * maxTFsize)
+    while TFnumber < maxTFnumber:        
+        with open(str(TFnumber)+'.pickle', 'rb') as handle:
+            TF = pickle.load(handle)
+        for i in np.random.choice(len(TF), int(len(TF)*parts/100), replace = False):
+            similarityDoc = similarity(TF[i],IDF, words, queryVector, len(TF))
+            if similarityDoc > 0.75:
                 ID = maxTFsize * TFnumber + i
                 vectors.put((ID, similarityDoc))
         TFnumber = TFnumber + 1
