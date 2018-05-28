@@ -12,11 +12,14 @@ def newIndex(ruta = getcwd()):
     indexIDF = {}
     TFsize = 0
     TFnumber = 0
-    ruta = "C:\\Users\\Virtual\\Documents"
+    
     for (root, _, archivos) in walk(ruta+"\\TXT"):
+
+    
         for archivo in archivos:
             pathText = path.join(root, archivo)
             paths.append(pathText)
+            
             text = cargarArchivo(pathText)
             newIndex = newDocumentIndex(text, indexIDF)
             indexTF.append(newIndex)
@@ -36,7 +39,8 @@ def newIndex(ruta = getcwd()):
                 indexTF  = []
                 TFsize   = 0
                 handle.close()
-        
+                
+    
     guardar(indexIDF, paths,  TFnumber )
     return indexIDF, paths, TFnumber 
 
@@ -73,3 +77,42 @@ def cargarJSON():
     return ITF, PATHS, TFNUMBER
 
 
+def newIndex2(ruta = getcwd()):
+    paths = []
+    indexTF  = []
+    indexIDF = {}
+    TFsize = 0
+    Times =0
+    Documents = 0
+    TFnumber = 0
+    while(Documents < 100000):
+        pathText = path.join("C:\\Users\\Virtual\\Documents\\TXT\\", str(Times)+".txt")
+        try:
+            text = cargarArchivo(pathText)
+            paths.append(pathText)
+            newIndex = newDocumentIndex(text, indexIDF)
+            indexTF.append(newIndex)
+            Documents += 1
+            TFsize  += 1
+        except:
+            pass
+        Times +=1
+        if TFsize == 10000:
+            with open(str(TFnumber)+'.pickle', 'wb') as handle:
+                print (TFnumber)
+                pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
+                TFnumber  += 1
+                indexTF = []
+                TFsize = 0
+                handle.close()
+                
+    if TFsize > 0:
+        with open(str(TFnumber)+'.pickle', 'wb') as handle:
+            pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            TFnumber +=  1
+            indexTF  = []
+            TFsize   = 0
+            handle.close()
+
+    guardar(indexIDF, paths,  TFnumber )
+    return indexIDF, paths, TFnumber 

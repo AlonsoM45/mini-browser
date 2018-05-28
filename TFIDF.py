@@ -44,7 +44,7 @@ def sortedInsert(L, element, maxsize):
     if diff > 0:
         L = L[:diff]
     return L
-
+"""
 def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     vectors = []
     words = query.split(" ")
@@ -66,8 +66,8 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     print(vectors)
     return vectors
 
-
-def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
+"""
+def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=10000):
     vectors = q.Queue()
     words = query.split(" ")
     TFnumber = 0
