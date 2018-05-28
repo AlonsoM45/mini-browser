@@ -16,7 +16,7 @@ def newDocumentIndex(document, indexIDF):
     return index
 
 def countWord(index, indexIDF, word):
-    index[word] = index.get(word, 0) 
+    index[word] = index.get(word, 0) + 1
     indexIDF[word] = indexIDF.get(word,0) + 1
 
 
@@ -44,7 +44,7 @@ def sortedInsert(L, element, maxsize):
     if diff > 0:
         L = L[:diff]
     return L
-"""
+
 def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     vectors = []
     words = query.split(" ")
@@ -66,7 +66,7 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=1000000):
     print(vectors)
     return vectors
 
-"""
+
 def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=10000):
     vectors = q.Queue()
     words = query.split(" ")
@@ -82,7 +82,6 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=10000):
                 vectors.put((ID, similarityDoc))
         TFnumber = TFnumber + 1
         handle.close()
-
     vectorType = [('id',int), ('similarity', float)]
     final = np.array(queueToList(vectors), dtype = vectorType)
     sortedList = np.sort(final, order = 'similarity')
