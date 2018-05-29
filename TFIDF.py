@@ -87,17 +87,19 @@ def probTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000, parts = 70):
     sortedList = sortedList[::-1]
     return sortedList
 
-def extendQuery(query, number = 2):
+def extendQuery(query, number, W2V):
     extended = ""
-    for word in query:
-        extended = extended + selectNearest(word, number)
+    for word in query.split():
+        for nextWord in selectNearest(word, number, W2V):
+            extended = extended +  " " + nextWord[0]
     return extended + query
 
 def selectNearest(word, number, W2V):
     nearest = q.Queue()
+    wordVector = W2V[word]
     for entry in W2V:
-        nearest.put( (entry, cs.cosSimilarity(W2V[word], W2V[entry])))
+        nearest.put( (entry, cs.cosSimilarity(wordVector, W2V[entry])))
     print('HERE')
     nearest = queueToList(nearest)
     nearest.sort(reverse = True, key = lambda x: x[1])
-    return nearest
+    return nearest[:number]
