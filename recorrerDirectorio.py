@@ -12,10 +12,7 @@ def newIndex(ruta = getcwd()):
     indexIDF = {}
     TFsize = 0
     TFnumber = 0
-    
-    for (root, _, archivos) in walk(ruta+"\\TXT"):
-
-    
+    for (root, _, archivos) in walk(ruta):
         for archivo in archivos:
             pathText = path.join(root, archivo)
             paths.append(pathText)
@@ -85,17 +82,17 @@ def newIndex2(ruta = getcwd()):
     Times =0
     Documents = 0
     TFnumber = 0
-    while(Documents < 1000000):
+    while(Documents < 2000000):
         pathText = path.join("C:\\Users\\Virtual\\Documents\\TXT\\", str(Times)+".txt")
         try:
             text = cargarArchivo(pathText)
             paths.append(pathText)
-            newIndex = newDocumentIndex(text.upper(), indexIDF)
+            newIndex = newDocumentIndex(text, indexIDF)
+            del text
             indexTF.append(newIndex)
             Documents += 1
             TFsize  += 1
         except:
-            print("WTF")
             pass
         Times +=1
         if TFsize == 100000:
@@ -103,9 +100,11 @@ def newIndex2(ruta = getcwd()):
                 print (TFnumber)
                 pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
                 TFnumber  += 1
+                del indexTF
                 indexTF = []
                 TFsize = 0
                 handle.close()
+                del handle
                 
     if TFsize > 0:
         with open(str(TFnumber)+'.pickle', 'wb') as handle:
