@@ -85,7 +85,7 @@ def newIndex2(ruta = getcwd()):
     Times =0
     Documents = 0
     TFnumber = 0
-    while(Documents < 100000):
+    while(Documents < 1000000):
         pathText = path.join("C:\\Users\\Virtual\\Documents\\TXT\\", str(Times)+".txt")
         try:
             text = cargarArchivo(pathText)
@@ -97,7 +97,7 @@ def newIndex2(ruta = getcwd()):
         except:
             pass
         Times +=1
-        if TFsize == 10000:
+        if TFsize == 100000:
             with open(str(TFnumber)+'.pickle', 'wb') as handle:
                 print (TFnumber)
                 pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
