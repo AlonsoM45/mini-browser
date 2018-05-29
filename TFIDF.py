@@ -55,7 +55,7 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000):
             TF = pickle.load(handle)
         for i in range(len(TF)):
             similarityDoc = similarity(TF[i],IDF, words, queryVector, len(TF))
-            if similarityDoc > 0.75:
+            if similarityDoc > 0.5:
                 ID = maxTFsize * TFnumber + i
                 vectors.put((ID, similarityDoc))
         TFnumber = TFnumber + 1
@@ -76,7 +76,7 @@ def probTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000, parts = 70):
             TF = pickle.load(handle)
         for i in np.random.choice(len(TF), int(len(TF)*parts/100), replace = False):
             similarityDoc = similarity(TF[i],IDF, words, queryVector, len(TF))
-            if similarityDoc > 0.75:
+            if similarityDoc > 0.5:
                 ID = maxTFsize * TFnumber + i
                 vectors.put((ID, similarityDoc))
         TFnumber = TFnumber + 1
@@ -86,3 +86,18 @@ def probTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000, parts = 70):
     sortedList = np.sort(final, order = 'similarity')
     sortedList = sortedList[::-1]
     return sortedList
+
+def extendQuery(query, number = 2):
+    extended = ""
+    for word in query:
+        extended = extended + selectNearest(word, number)
+    return extended + query
+
+def selectNearest(word, number, W2V):
+    nearest = q.Queue()
+    for entry in W2V:
+        nearest.put( (entry, cs.cosSimilarity(W2V[word], W2V[entry])))
+    print('HERE')
+    nearest = queueToList(nearest)
+    nearest.sort(reverse = True, key = lambda x: x[1])
+    return nearest
