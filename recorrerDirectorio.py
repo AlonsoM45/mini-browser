@@ -21,7 +21,7 @@ def newIndex(ruta = getcwd()):
             paths.append(pathText)
             
             text = cargarArchivo(pathText)
-            newIndex = newDocumentIndex(text, indexIDF)
+            newIndex = newDocumentIndex(text.upper(), indexIDF)
             indexTF.append(newIndex)
             TFsize = TFsize  + 1
             if TFsize == 1000000:
@@ -90,11 +90,12 @@ def newIndex2(ruta = getcwd()):
         try:
             text = cargarArchivo(pathText)
             paths.append(pathText)
-            newIndex = newDocumentIndex(text, indexIDF)
+            newIndex = newDocumentIndex(text.upper(), indexIDF)
             indexTF.append(newIndex)
             Documents += 1
             TFsize  += 1
         except:
+            print("WTF")
             pass
         Times +=1
         if TFsize == 100000:
