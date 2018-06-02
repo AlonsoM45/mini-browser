@@ -42,9 +42,6 @@ class self(tkinter.Tk):
         self.textBoxQuantity.place(x=15, y= 110)
         self.textBoxProb = Entry(self, width=30)
         self.textBoxProb.place(x=15, y= 315)
-        checkBox = IntVar()
-        self.checkW2V = Checkbutton(self, text="Word 2 Vec", variable= checkBox,  font="20")
-        self.checkW2V.place(x= 50, y =140)
         #Button
         self.btnNormalSearch= Button(self, text="Buscar Normal", width=20, heigh=2, command=self.normalSearch)
         self.btnNormalSearch.place(x=20, y=200)
@@ -68,8 +65,14 @@ class self(tkinter.Tk):
 
         #List
         self.list = []
-        
 
+        self.checkbox = BooleanVar(self)
+        self.checkW2V = Checkbutton(self, text="Word 2 Vec", variable=self.checkbox,command=self.checkbox_clicked)
+        self.checkW2V.place(x= 50, y =140)
+        
+    def checkbox_clicked(self):
+        print(self.checkbox.get())
+        
     def normalSearch(self):
         global IDF, paths, totalSize, W2V, checkBox
         query = self.textBoxSearch.get()
@@ -80,8 +83,7 @@ class self(tkinter.Tk):
         #result = searchTFIDF(query, TF, IDF, int(quantity))
         print (totalSize)
 
-        print("check: ", checkBox.get() )
-        if checkBox.get() > 0:
+        if self.checkbox.get() == 1 :
             query = extendQuery(query, 2, W2V)
             
         result = searchTFIDF(query, totalSize, IDF, int(quantity))
