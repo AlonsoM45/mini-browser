@@ -4,6 +4,7 @@ from random import choice
 from TFIDF import searchTFIDF, probTFIDF
 from recorrerDirectorio import newIndex, cargarArchivo, cargarJSON
 from time import time
+import pickle
 
 class menu(tkinter.Tk):
     def __init__(menu):
@@ -23,6 +24,7 @@ class menu(tkinter.Tk):
 
 class self(tkinter.Tk):
     def __init__(self):
+        global checkBox
         tkinter.Tk.__init__(self)
         self.title("Mini Google")
         self.geometry("1150x550")
@@ -40,8 +42,8 @@ class self(tkinter.Tk):
         self.textBoxQuantity.place(x=15, y= 110)
         self.textBoxProb = Entry(self, width=30)
         self.textBoxProb.place(x=15, y= 315)
-        checkBox = 0
-        self.checkW2V = Checkbutton(self, text="Word 2 Vec", variable=checkBox,  font="20")
+        checkBox = IntVar()
+        self.checkW2V = Checkbutton(self, text="Word 2 Vec", variable= checkBox,  font="20")
         self.checkW2V.place(x= 50, y =140)
         #Button
         self.btnNormalSearch= Button(self, text="Buscar Normal", width=20, heigh=2, command=self.normalSearch)
@@ -69,7 +71,7 @@ class self(tkinter.Tk):
         
 
     def normalSearch(self):
-        global IDF, paths, totalSize 
+        global IDF, paths, totalSize, W2V, checkBox
         query = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
         self.listbox.delete(0, END)
@@ -77,6 +79,11 @@ class self(tkinter.Tk):
         inicial = time()
         #result = searchTFIDF(query, TF, IDF, int(quantity))
         print (totalSize)
+
+        print("check: ", checkBox.get() )
+        if checkBox.get() > 0:
+            query = extendQuery(query, 2, W2V)
+            
         result = searchTFIDF(query, totalSize, IDF, int(quantity))
         final = time()
         print ("Duró buscando: "+str(final - inicial)+" segundos")
@@ -90,18 +97,26 @@ class self(tkinter.Tk):
             self.listbox.insert(END, doc)
 
     def probSearch(self):
-        global IDF, paths, totalSize
+        global IDF, paths, totalSize, W2V, checkBox
         query = self.textBoxSearch.get()
-        quantity = self.textBoxQuantity.get()
+        quantity = int(self.textBoxQuantity.get())
+        correctness = int(self.textBoxProb.get())
+        
         self.listbox.delete(0, END)
         self.list =[]
         inicial = time()
         #result = searchTFIDF(query, TF, IDF, int(quantity))
-        result = probTFIDF(query, totalSize, IDF, int(quantity))
+
+        print("check: ", checkBox.get() )
+        if checkBox.get() > 0:
+            query = extendQuery(query, 2, W2V)
+            print("New Query: ", query)
+        
+        result = probTFIDF(query, totalSize, IDF, quantity, correctness )
         final = time()
         print ("Duró buscando: "+str(final - inicial)+" segundos")
         
-        realQuantity = min(int(quantity), len(result))
+        realQuantity = min(quantity, len(result))
         #arreglar
         
         for x in range(int(realQuantity)):
@@ -124,6 +139,7 @@ def normalIndex():
     IDF, paths, totalSize = cargarJSON()
     final = time()
     print ("Duró indexando: "+str(final - inicial)+" segundos")
+    LoadW2V()
     self().mainloop()
     
 
@@ -134,9 +150,14 @@ def NewIndex():
     IDF, paths, totalSize = newIndex(path)
     final = time()
     print ("Duró indexando: "+str(final - inicial)+" segundos")
+    LoadW2V()
     self().mainloop()
     
-
+def LoadW2V():
+    fp = open("W2V.pickle", "rb")
+    W2V = pickle.load(fp)
+    fp.close()
+    return W2V
 
 
 
