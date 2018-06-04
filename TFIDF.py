@@ -102,7 +102,8 @@ def selectNearest(word, number, W2V, IDF):
         return []
     wordVector = W2V[word]
     for entry in W2V:
-        nearest.put( (entry, cs.cosSimilarity(wordVector, W2V[entry])))
+        if entry in IDF:
+            nearest.put( (entry, cs.cosSimilarity(wordVector, W2V[entry])))
     print('HERE')
     nearest = queueToList(nearest)
     nearest.sort(reverse = True, key = lambda x: x[1])
