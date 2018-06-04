@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter
 from random import choice
-from TFIDF import searchTFIDF, probTFIDF
+from TFIDF import searchTFIDF, probTFIDF, extendQuery
 from recorrerDirectorio import newIndex, cargarArchivo, cargarJSON
 from time import time
 import pickle
@@ -18,10 +18,21 @@ class menu(tkinter.Tk):
 
         menu.btnNormalIndex= Button(menu, text="Usar 2 Millones", fg = "antique white", bg = "salmon4", font = ("Courier", 12), width=20, heigh=2, command=normalIndex)
         menu.btnNormalIndex.place(x=300, y=100)
-        menu.btnNewIndex= Button(menu, text="Indexar Nuevo",  fg = "antique white", bg = "salmon4", font = ("Courier", 12), width=20, heigh=2, command= NewIndex)
+        menu.btnNewIndex= Button(menu, text="Indexar Nuevo",  fg = "antique white", bg = "salmon4", font = ("Courier", 12), width=20, heigh=2, command= menu.NewIndex)
         menu.btnNewIndex.place(x=300, y=10)
         menu.textBoxPath = Entry(menu, width=30)
         menu.textBoxPath.place(x=100, y= 20)
+
+    def NewIndex(menu):
+        global IDF, paths, totalSize, W2V
+        path =  menu.textBoxPath.get()
+        print (path)
+        inicial = time()
+        IDF, paths, totalSize = newIndex(path)
+        final = time()
+        print ("Duró indexando: "+str(final - inicial)+" segundos")
+        W2V = LoadW2V()
+        self().mainloop()
 
 class self(tkinter.Tk):
     def __init__(self):
@@ -78,7 +89,7 @@ class self(tkinter.Tk):
         print(self.checkbox.get())
         
     def normalSearch(self):
-        global IDF, paths, totalSize, W2V, checkBox
+        global IDF, paths, totalSize, W2V
         query = self.textBoxSearch.get()
         quantity = self.textBoxQuantity.get()
         self.listbox.delete(0, END)
@@ -86,9 +97,12 @@ class self(tkinter.Tk):
         inicial = time()
         #result = searchTFIDF(query, TF, IDF, int(quantity))
         print (totalSize)
+        
+        
 
         if self.checkbox.get() == 1 :
             query = extendQuery(query, 2, W2V)
+            print (query)
             
         result = searchTFIDF(query, totalSize, IDF, int(quantity))
         final = time()
@@ -113,10 +127,9 @@ class self(tkinter.Tk):
         inicial = time()
         #result = searchTFIDF(query, TF, IDF, int(quantity))
 
-        print("check: ", checkBox.get() )
-        if checkBox.get() > 0:
+        if self.checkbox.get() == 1 :
             query = extendQuery(query, 2, W2V)
-            print("New Query: ", query)
+            print (query)
         
         result = probTFIDF(query, totalSize, IDF, quantity, correctness )
         final = time()
@@ -137,27 +150,19 @@ class self(tkinter.Tk):
 
 
 
-
+W2V = {}
 
 def normalIndex():
-    global IDF, paths, totalSize
+    global IDF, paths, totalSize, W2V
     inicial = time()
     IDF, paths, totalSize = cargarJSON()
     final = time()
     print ("Duró indexando: "+str(final - inicial)+" segundos")
-    LoadW2V()
+    W2V = LoadW2V()
     self().mainloop()
     
 
-def NewIndex():
-    global IDF, paths, totalSize
-    path =  menu.textBoxPath.get()
-    inicial = time()
-    IDF, paths, totalSize = newIndex(path)
-    final = time()
-    print ("Duró indexando: "+str(final - inicial)+" segundos")
-    LoadW2V()
-    self().mainloop()
+
     
 def LoadW2V():
     fp = open("W2V.pickle", "rb")

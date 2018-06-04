@@ -6,7 +6,10 @@ import threading
 import pickle
 threadCount = 0
 
+
+
 def newIndex(ruta = getcwd()):
+    #ruta = "C:\\Users\\Virtual\\Desktop\\TXT"
     paths = []
     indexTF  = []
     indexIDF = {}
@@ -18,10 +21,12 @@ def newIndex(ruta = getcwd()):
             paths.append(pathText)
             
             text = cargarArchivo(pathText)
-            newIndex = newDocumentIndex(text.upper(), indexIDF)
+            newIndex = newDocumentIndex(text, indexIDF)
             indexTF.append(newIndex)
             TFsize = TFsize  + 1
-            if TFsize == 1000000:
+            if TFsize %10000 == 0 :
+                print (TFsize)
+            if TFsize == 100000:
                 with open(str(TFnumber)+'.pickle', 'wb') as handle:
                     pickle.dump(indexTF, handle, protocol=pickle.HIGHEST_PROTOCOL)
                     TFnumber = TFnumber  + 1
