@@ -56,7 +56,7 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000):
         with open(str(TFnumber)+'.pickle', 'rb') as handle:
             TF = pickle.load(handle)
         for i in range(len(TF)):
-            similarityDoc = similarity(TF.get(i, 0),IDF, words, queryVector, len(TF))
+            similarityDoc = similarity(TF[i],IDF, words, queryVector, len(TF))
             if similarityDoc > 0.5:
                 ID = maxTFsize * TFnumber + i
                 vectors.put((ID, similarityDoc))
@@ -77,7 +77,7 @@ def probTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000, parts = 70):
         with open(str(TFnumber)+'.pickle', 'rb') as handle:
             TF = pickle.load(handle)
         for i in np.random.choice(len(TF), int(len(TF)*parts/100), replace = False):
-            similarityDoc = similarity(TF.get(i, 0), IDF, words, queryVector, len(TF))
+            similarityDoc = similarity(TF[i], IDF, words, queryVector, len(TF))
             if similarityDoc > 0.5:
                 ID = maxTFsize * TFnumber + i
                 vectors.put((ID, similarityDoc))
