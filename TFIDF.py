@@ -27,8 +27,8 @@ def similarity(TF, IDF, words, queryVector, nDocs):
     vectorA = np.array(list(vectorA))
     return cs.cosSimilarity(vectorA, queryVector)
 
-def vectorize(IDF, query, nDocs):
-    return np.array(list(map(lambda x: nDocs/ (IDF.get(x, 0) + 1), query.split())))
+def vectorize(IDF, words, nDocs):
+    return np.array(list(map(lambda x: nDocs/ (IDF.get(x, 0) + 1), words)))
     
 def queueToList(Q):
     L = []
@@ -50,7 +50,7 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000):
     vectors = q.Queue()
     words = query.split(" ")
     TFnumber = 0
-    queryVector = vectorize(IDF, query, maxTFnumber * maxTFsize)
+    queryVector = vectorize(IDF, words, maxTFnumber * maxTFsize)
     print (maxTFnumber)
     while TFnumber < maxTFnumber:
         
