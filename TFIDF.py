@@ -89,10 +89,10 @@ def probTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000, parts = 70):
     sortedList = sortedList[::-1]
     return sortedList
 
-def extendQuery(query, number, W2V):
+def extendQuery(query, number, W2V, IDF):
     extended = ""
     for word in query.split():
-        for nextWord in selectNearest(word, number, W2V):
+        for nextWord in selectNearest(word, number, W2V, IDF):
             extended = extended +  " " + nextWord[0]
     return extended + " " + query
 
