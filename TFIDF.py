@@ -98,9 +98,9 @@ def extendQuery(query, number, W2V):
 
 def selectNearest(word, number, W2V):
     nearest = q.Queue()
-    wordVector = W2V.get(word, 0)
-    if wordVector == 0:
+    if word not in W2V:
         return []
+    wordVector = W2V.get(word, 0)
     for entry in W2V:
         nearest.put( (entry, cs.cosSimilarity(wordVector, W2V[entry])))
     print('HERE')
