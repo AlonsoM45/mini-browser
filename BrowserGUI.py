@@ -101,7 +101,7 @@ class self(tkinter.Tk):
         
 
         if self.checkbox.get() == 1 :
-            query = extendQuery(query, 2, W2V)
+            query = extendQuery(query, 2, W2V, IDF)
             print (query)
             
         result = searchTFIDF(query, totalSize, IDF, int(quantity))
@@ -128,7 +128,7 @@ class self(tkinter.Tk):
         #result = searchTFIDF(query, TF, IDF, int(quantity))
 
         if self.checkbox.get() == 1 :
-            query = extendQuery(query, 2, W2V)
+            query = extendQuery(query, 2, W2V, IDF)
             print (query)
         
         result = probTFIDF(query, totalSize, IDF, quantity, correctness )
