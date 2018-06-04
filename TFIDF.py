@@ -27,7 +27,7 @@ def similarity(TF, IDF, words, queryVector, nDocs):
     return cs.cosSimilarity(vectorA, queryVector)
 
 def vectorize(IDF, query, nDocs):
-    return np.array(list(map(lambda x: nDocs/ IDF[x], query.split())))
+    return np.array(list(map(lambda x: nDocs/ (IDF.get(x, 0) + 1), query.split())))
     
 def queueToList(Q):
     L = []
@@ -56,7 +56,7 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000):
         with open(str(TFnumber)+'.pickle', 'rb') as handle:
             TF = pickle.load(handle)
         for i in range(len(TF)):
-            similarityDoc = similarity(TF[i],IDF, words, queryVector, len(TF))
+            similarityDoc = similarity(TF.get(i, 0),IDF, words, queryVector, len(TF))
             if similarityDoc > 0.5:
                 ID = maxTFsize * TFnumber + i
                 vectors.put((ID, similarityDoc))
@@ -77,7 +77,7 @@ def probTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000, parts = 70):
         with open(str(TFnumber)+'.pickle', 'rb') as handle:
             TF = pickle.load(handle)
         for i in np.random.choice(len(TF), int(len(TF)*parts/100), replace = False):
-            similarityDoc = similarity(TF[i],IDF, words, queryVector, len(TF))
+            similarityDoc = similarity(TF.get(i, 0), IDF, words, queryVector, len(TF))
             if similarityDoc > 0.5:
                 ID = maxTFsize * TFnumber + i
                 vectors.put((ID, similarityDoc))
@@ -98,7 +98,9 @@ def extendQuery(query, number, W2V):
 
 def selectNearest(word, number, W2V):
     nearest = q.Queue()
-    wordVector = W2V[word]
+    wordVector = W2V.get(word, 0)
+    if wordVector == 0:
+        return []
     for entry in W2V:
         nearest.put( (entry, cs.cosSimilarity(wordVector, W2V[entry])))
     print('HERE')
