@@ -22,7 +22,6 @@ def countWord(index, indexIDF, word):
 
 #TF-IDF FUNCTIONS
 def similarity(TF, IDF, words, queryVector, nDocs):
-    print(len(queryVector), words)
     vectorA = map(lambda w: TF.get(w,0) *(nDocs /  (IDF.get(w,0) + 1) ), words)
     vectorA = np.array(list(vectorA))
     return cs.cosSimilarity(vectorA, queryVector)
