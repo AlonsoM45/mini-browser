@@ -94,7 +94,7 @@ def extendQuery(query, number, W2V):
     for word in query.split():
         for nextWord in selectNearest(word, number, W2V):
             extended = extended +  " " + nextWord[0]
-    return extended + query
+    return extended + " " + query
 
 def selectNearest(word, number, W2V):
     nearest = q.Queue()
