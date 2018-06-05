@@ -207,5 +207,5 @@ def LoadW2V():
     
 
 
-self().mainloop()
+menu().mainloop()
 
