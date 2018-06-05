@@ -50,9 +50,7 @@ def searchTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000):
     words = query.split(" ")
     TFnumber = 0
     queryVector = vectorize(IDF, words, maxTFnumber * maxTFsize)
-    print (maxTFnumber)
     while TFnumber < maxTFnumber:
-        
         with open(str(TFnumber)+'.pickle', 'rb') as handle:
             TF = pickle.load(handle)
         for i in range(len(TF)):
@@ -72,7 +70,7 @@ def probTFIDF(query, maxTFnumber, IDF, maxsize, maxTFsize=100000, parts = 70):
     vectors = q.Queue()
     words = query.split(" ")
     TFnumber = 0
-    queryVector = vectorize(IDF, query, maxTFnumber * maxTFsize)
+    queryVector = vectorize(IDF, words, maxTFnumber * maxTFsize)
     while TFnumber < maxTFnumber:        
         with open(str(TFnumber)+'.pickle', 'rb') as handle:
             TF = pickle.load(handle)
