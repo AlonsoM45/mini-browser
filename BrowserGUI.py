@@ -44,7 +44,7 @@ class self(tkinter.Tk):
         tkinter.Tk.__init__(self)
         self.title("Mini Google")
         self.geometry("950x590")
-        w = Canvas(self, width=950, height=590)
+        w = Canvas(self, width=950, height=590, bg="#f2f2f2")
         
         w.create_rectangle(370, 115, 890, 185, width = 1)
         w.create_rectangle(20, 55, 890, 185, width = 2)
