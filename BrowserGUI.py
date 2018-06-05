@@ -10,18 +10,23 @@ class menu(tkinter.Tk):
     def __init__(menu):
         tkinter.Tk.__init__(menu)
         menu.title("Mini Google")
-        menu.geometry("600x200")
+        menu.geometry("500x200")
+        w = Canvas(menu, width=500, height=200,bg ='#d4d4d4')
+        w.pack()
+        w.create_line(0, 90, 500, 90)
 
-        lbl1= Label(menu, text= "Path:", fg = "antique white", bg = "IndianRed4", font = ("Courier", 12))
-        lbl1.place(x=20, y= 20)
-        menu.configure(background='IndianRed4')
 
-        menu.btnNormalIndex= Button(menu, text="Usar 2 Millones", fg = "antique white", bg = "salmon4", font = ("Courier", 12), width=20, heigh=2, command=normalIndex)
-        menu.btnNormalIndex.place(x=300, y=100)
-        menu.btnNewIndex= Button(menu, text="Indexar Nuevo",  fg = "antique white", bg = "salmon4", font = ("Courier", 12), width=20, heigh=2, command= menu.NewIndex)
+        lbl1= Label(menu, text= "Path:", bg ='#d4d4d4', font = ("Serif", 12))
+        lbl1.place(x=25, y= 30)
+        menu.configure(background='#d4d4d4')
+        
+
+        menu.btnNormalIndex= Button(menu, text="Usar 2 Millones", fg = "white", bg = "#176BEF", font = ("Serif", 12), width=20, heigh=3, command=normalIndex)
+        menu.btnNormalIndex.place(x=150, y=110)
+        menu.btnNewIndex= Button(menu, text="Indexar Nuevo",  fg = "white", bg = "#176BEF", font = ("Serif", 12), width=20, heigh=3, command= menu.NewIndex)
         menu.btnNewIndex.place(x=300, y=10)
         menu.textBoxPath = Entry(menu, width=30)
-        menu.textBoxPath.place(x=100, y= 20)
+        menu.textBoxPath.place(x=100, y= 30)
 
     def NewIndex(menu):
         global IDF, paths, totalSize, W2V
@@ -39,51 +44,59 @@ class self(tkinter.Tk):
         global checkBox
         tkinter.Tk.__init__(self)
         self.title("Mini Google")
-        self.geometry("1150x550")
-        self.configure(background = "IndianRed4")
+        self.geometry("950x600")
+        w = Canvas(self, width=950, height=600)#,bg ='#d4d4d4')
+        
+        w.create_rectangle(370, 65, 890, 135, width = 1)
+        w.create_rectangle(20, 5, 890, 135, width = 2)
+        w.create_rectangle(20, 65, 370, 135, width = 1)
 
-        lbl1= Label(self, text= "Texto:", fg = "antique white", bg = "IndianRed4", font = ("Courier", 11))
-        lbl1.place(x=60, y= 10)
-        lbl2= Label(self, text= "Cantidad de Resultados: ", fg = "antique white", bg = "IndianRed4", font = ("Courier", 11))
-        lbl2.place(x=35, y= 75)
-        lbl3= Label(self, text= "Exactitud: ", fg = "antique white", bg = "IndianRed4", font = ("Courier", 11))
-        lbl3.place(x=60, y= 275)
-        lbl4= Label(self, text="Resultados",width=40,fg = "antique white", bg = "IndianRed4", font = ("Courier", 13))
-        lbl4.place(x=300, y=20)
+        lbl1= Label(self, text= "Texto:", fg = "#4285f4",  font = ("Serif", 14))
+        lbl1.place(x=60, y= 20)
+        lbl2= Label(self, text= "Cantidad de Resultados: ", fg =  "#4285f4", font = ("Serif", 14))
+        lbl2.place(x=420, y= 20)
+        lbl3= Label(self, text= "Exactitud: ", fg = "#4285f4",  font = ("Serif", 14))
+        lbl3.place(x=400, y= 90)
+        #lbl4= Label(self, text="Resultados",width=40,fg = "antique white", bg = "IndianRed4", font = ("Courier", 13))
+        #lbl4.place(x=500, y=20)
         #TextBox
-        self.textBoxSearch = Entry(self, width=30)
-        self.textBoxSearch.place(x=40, y= 50)
-        self.textBoxQuantity = Entry(self, width=30)
-        self.textBoxQuantity.place(x=40, y= 110)
-        self.textBoxProb = Entry(self, width=30)
-        self.textBoxProb.place(x=40, y= 315)
+
+        self.textBoxSearch = Entry(self, width=25, font = ("Serif", 13))
+        self.textBoxSearch.place(x=150, y= 20)
+        self.textBoxQuantity = Entry(self, width=7, font = ("Serif", 13))
+        self.textBoxQuantity.place(x=650, y= 20)
+        self.textBoxProb = Entry(self, width=7, font = ("Serif", 13))
+        self.textBoxProb.place(x=500, y= 90)
+        
         #Button
-        self.btnNormalSearch= Button(self, text="Búsqueda Normal", width=30, heigh=2, command=self.normalSearch, fg = "antique white", bg = "salmon4", font = ("Courier", 10))
-        self.btnNormalSearch.place(x=25, y=200)
-        self.btnProbSearch= Button(self, text="Búsqueda Probabilística",width=30, heigh=2,command= self.probSearch, fg = "antique white", bg = "salmon4", font = ("Courier", 10))
-        self.btnProbSearch.place(x=25, y=350)
-        self.btnViewDocument= Button(self, text="Ver Documento",width=40, heigh=2,command= self.viewDocument,  fg = "antique white", bg = "salmon4", font = ("Courier", 11))
-        self.btnViewDocument.place(x=740, y=20)
+        self.btnNormalSearch= Button(self, text="Búsqueda Normal", width=30, heigh=2, command=self.normalSearch, fg = "white", bg = "#db4437", font = ("Serif", 13))
+        self.btnNormalSearch.place(x=60, y=75)
+        self.btnProbSearch= Button(self, text="Búsqueda Probabilística",width=30, heigh=2,command= self.probSearch, fg = "white", bg = "#db4437", font = ("Serif", 13))
+        self.btnProbSearch.place(x=600, y=75)
+        self.btnViewDocument= Button(self, text="Ver",width=7, heigh=2,command= self.viewDocument, fg = "white", bg = "#db4437", font = ("Serif", 13))
+        self.btnViewDocument.place(x=440, y=300)
+        
         #ListBox
         self.scrollbarList = Scrollbar(self, orient=VERTICAL)
-        self.listbox = Listbox(self,width=40, heigh=24, yscrollcommand=self.scrollbarList.set , font = ("Courier", 11))
+        self.listbox = Listbox(self,width=43, heigh=20, yscrollcommand=self.scrollbarList.set , font = ("Courier", 11))
         self.scrollbarList.config(command=self.listbox.yview)
         self.scrollbarList.pack(side=LEFT, fill=Y)
-        self.listbox.place(x=310, y=90)
+        self.listbox.place(x=30, y=150)
         
         #TextArea
-        self.textArea = Text(self,width=40, heigh=25, font = ("Courier", 11))
+        self.textArea = Text(self,width=40, heigh=21, font = ("Courier", 11))
         self.scrollbarText = Scrollbar(self, orient=VERTICAL)
         self.textArea.configure(yscrollcommand=self.scrollbarText.set)
         self.scrollbarText.config(command=self.textArea.yview)
         self.scrollbarText.pack(side=RIGHT, fill=Y)
-        self.textArea.place(x=740, y=90)
-
+        self.textArea.place(x=535, y=150)
+        
         #List
         self.list = []
         self.checkbox = BooleanVar(self)
-        self.checkW2V = Checkbutton(self, text="Word 2 Vec", variable=self.checkbox,command=self.checkbox_clicked, fg = "antique white", bg = "IndianRed4", font = ("Courier", 11))
-        self.checkW2V.place(x= 50, y =140)
+        self.checkW2V = Checkbutton(self, text="Word 2 Vec", variable=self.checkbox,command=self.checkbox_clicked,  fg = "#4285f4",  font = ("Serif", 14))
+        self.checkW2V.place(x= 750, y =20)
+        w.pack()
         
     def checkbox_clicked(self):
         print(self.checkbox.get())
@@ -175,5 +188,5 @@ def LoadW2V():
     
 
 
-menu().mainloop()
+self().mainloop()
 
