@@ -6,6 +6,8 @@ from recorrerDirectorio import newIndex, cargarArchivo, cargarJSON
 from time import time
 import pickle
 
+
+
 class menu(tkinter.Tk):
     def __init__(menu):
         tkinter.Tk.__init__(menu)
@@ -103,12 +105,13 @@ class self(tkinter.Tk):
         self.listbox.place(x=30, y=200)
         
         #TextArea
-        self.textArea = Text(self,width=40, heigh=21, font = ("Courier", 11))
+        self.textArea = Text(self,width=40, heigh=21,  font = ("Courier", 11))
         self.scrollbarText = Scrollbar(self, orient=VERTICAL)
         self.textArea.configure(yscrollcommand=self.scrollbarText.set)
         self.scrollbarText.config(command=self.textArea.yview)
         self.scrollbarText.pack(side=RIGHT, fill=Y)
         self.textArea.place(x=535, y=200)
+
         
         #List
         self.list = []
@@ -130,8 +133,6 @@ class self(tkinter.Tk):
         #result = searchTFIDF(query, TF, IDF, int(quantity))
         print (totalSize)
         
-        
-
         if self.checkbox.get() == 1 :
             query = extendQuery(query, 2, W2V, IDF)
             print (query)
@@ -179,6 +180,12 @@ class self(tkinter.Tk):
         index = self.listbox.curselection()
         self.textArea.delete(1.0, END)
         self.textArea.insert(END, self.list[int(index[0])])
+        for word in self.textBoxSearch.get().split():            
+            textA = self.list[int(index[0])]
+            startA = re.search(word, textA).start()
+            endA = startA + len(word)
+        self.textArea.tag_add("start", "1."+str(startA), "1."+str(endA))
+        self.textArea.tag_config("start", background="black", foreground="yellow")
 
 
 
