@@ -7,7 +7,6 @@ from time import time
 import pickle
 
 
-
 class menu(tkinter.Tk):
     def __init__(menu):
         tkinter.Tk.__init__(menu)
@@ -184,8 +183,8 @@ class self(tkinter.Tk):
             textA = self.list[int(index[0])]
             startA = re.search(word, textA).start()
             endA = startA + len(word)
-        self.textArea.tag_add("start", "1."+str(startA), "1."+str(endA))
-        self.textArea.tag_config("start", background="black", foreground="yellow")
+            self.textArea.tag_add("start", "1."+str(startA), "1."+str(endA))
+            self.textArea.tag_config("start", background="black", foreground="yellow")
 
 
 
